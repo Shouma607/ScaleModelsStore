@@ -1,0 +1,41 @@
+﻿@model ScaleModelsStore.Models.Product
+
+@{ 
+    ViewBag.Title = "Product details";
+}
+
+<h2>@Model.ProductName</h2>
+
+<p>
+    <img alt="@Model.ProductName" src="@string.Format("{0}placeholder.gif",Model.ImagePath)" />
+</p>
+<div>
+    <p>
+        <h4>Category:</h4>
+        @Model.Category.Name
+    </p>
+    <p>
+        <h4>Manufacturer:</h4>
+        @Model.Manufacturer.Name
+    </p>
+    <p>
+        <h4>Scale:</h4>
+        @Model.Scale
+    </p>
+    <p>
+        <h4>Material:</h4>
+        @Model.Material
+    </p>
+    <p>
+        <h4>Description</h4>
+        @Model.Description
+    </p>
+    <p>
+        <h4>Price:</h4>
+        @string.Format("{0:F}",Model.Price)
+    </p>
+    <p>
+        <a class="product-page-button" href="@Url.Action()" title="To Cart"><span>Buy</span></a>
+        <a class="product-page-button" href="@Url.Action()" title="To Wish List"><span>Wish list</span></a>
+    </p>
+</div>

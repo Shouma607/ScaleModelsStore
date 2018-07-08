@@ -1,0 +1,8 @@
+﻿@model IEnumerable<ScaleModelsStore.Models.Category>
+
+<ul>
+    @foreach (var category in Model)
+    {
+        <li>@Html.ActionLink(category.Name,"Category",new { categoryName=category.Name},null)</li>
+    }
+</ul>

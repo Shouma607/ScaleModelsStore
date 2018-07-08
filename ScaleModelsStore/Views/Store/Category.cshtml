@@ -1,0 +1,21 @@
+﻿@model ScaleModelsStore.Models.Category
+
+@{
+    ViewBag.Title="Browse categories";
+}
+
+<div>
+    <h3>@Model.Name Products</h3>
+    <ul>
+        @foreach(var product in Model.Products)
+        {
+            <li>
+                <a href="@Url.Action("Product",new { id=product.ProductId})">
+                    <img alt="@product.ProductName" src="@string.Format("{0}placeholder.gif",product.ImagePath)" />
+                    <span>@product.ProductName</span>
+                </a>
+            </li>
+        }
+    </ul>
+</div>
+
