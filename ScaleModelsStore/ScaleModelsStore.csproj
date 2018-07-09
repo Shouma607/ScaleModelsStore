@@ -169,7 +169,6 @@
     <Compile Include="Models\OrderToProducts.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\ScaleModelsStoreEntities.cs" />
-    <Compile Include="Models\ScaleModelsStoreInitializer.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
