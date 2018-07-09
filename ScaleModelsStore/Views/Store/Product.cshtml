@@ -35,7 +35,7 @@
         @string.Format("{0:F}",Model.Price)
     </p>
     <p>
-        <a class="product-page-button" href="@Url.Action()" title="To Cart"><span>Add to cart</span></a>
+        <a class="product-page-button" href="@Url.Action("AddToCart","ShoppingCart",new { id=Model.ProductId})" title="To Cart"><span>Add to cart</span></a>
         <a class="product-page-button" href="@Url.Action()" title="Add to Wish List"><span>To wish list</span></a>
     </p>
 </div>
