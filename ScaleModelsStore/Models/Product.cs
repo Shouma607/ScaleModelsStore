@@ -37,7 +37,7 @@ namespace ScaleModelsStore.Models
         public string ImagePath { get; set; }
 
         //TODO 1: QuantityLimit      
-        public int Quantity { get; set; }
+        //public int Quantity { get; set; }
 
         public virtual Category Category { get; set; }
         public virtual Manufacturer Manufacturer { get; set; }
