@@ -35,9 +35,8 @@ namespace ScaleModelsStore.Models
         [DisplayName("Product photo URL")]
         [StringLength(1024)]
         public string ImagePath { get; set; }
-
-        //TODO 1: QuantityLimit      
-        //public int Quantity { get; set; }
+                      
+        public int QuantityInStock { get; set; }
 
         public virtual Category Category { get; set; }
         public virtual Manufacturer Manufacturer { get; set; }
