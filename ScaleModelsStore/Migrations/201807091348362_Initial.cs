@@ -8,14 +8,17 @@ namespace ScaleModelsStore.Migrations
         public override void Up()
         {
             CreateTable(
-                "dbo.Categories",
+                "dbo.Carts",
                 c => new
                     {
-                        CategoryId = c.Int(nullable: false, identity: true),
-                        Name = c.String(maxLength: 20),
-                        Description = c.String(maxLength: 250),
+                        RecordId = c.Int(nullable: false, identity: true),
+                        CartId = c.String(),
+                        ProductId = c.Int(nullable: false),
+                        Quantity = c.Int(nullable: false),
                     })
-                .PrimaryKey(t => t.CategoryId);
+                .PrimaryKey(t => t.RecordId)
+                .ForeignKey("dbo.Products", t => t.ProductId, cascadeDelete: true)
+                .Index(t => t.ProductId);
             
             CreateTable(
                 "dbo.Products",
@@ -39,6 +42,16 @@ namespace ScaleModelsStore.Migrations
                 .Index(t => t.ManufacturerId);
             
             CreateTable(
+                "dbo.Categories",
+                c => new
+                    {
+                        CategoryId = c.Int(nullable: false, identity: true),
+                        Name = c.String(maxLength: 20),
+                        Description = c.String(maxLength: 250),
+                    })
+                .PrimaryKey(t => t.CategoryId);
+            
+            CreateTable(
                 "dbo.Manufacturers",
                 c => new
                     {
@@ -52,13 +65,16 @@ namespace ScaleModelsStore.Migrations
         
         public override void Down()
         {
+            DropForeignKey("dbo.Carts", "ProductId", "dbo.Products");
             DropForeignKey("dbo.Products", "ManufacturerId", "dbo.Manufacturers");
             DropForeignKey("dbo.Products", "CategoryId", "dbo.Categories");
             DropIndex("dbo.Products", new[] { "ManufacturerId" });
             DropIndex("dbo.Products", new[] { "CategoryId" });
+            DropIndex("dbo.Carts", new[] { "ProductId" });
             DropTable("dbo.Manufacturers");
-            DropTable("dbo.Products");
             DropTable("dbo.Categories");
+            DropTable("dbo.Products");
+            DropTable("dbo.Carts");
         }
     }
 }
