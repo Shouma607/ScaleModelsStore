@@ -1,4 +1,20 @@
-﻿@{
-    ViewBag.Title = "Home Page";
+﻿@model IEnumerable<ScaleModelsStore.Models.Product>
+
+@{
+    ViewBag.Title = "Scale Models Store";
 }
 
+<div>
+    <h3>New items:</h3>
+    <ul>
+        @foreach (var product in Model)
+        {
+            <li>
+                <a href="@Url.Action("Product",new { id=product.ProductId})">
+                    <img alt="@product.ProductName" src="@string.Format("{0}placeholder.gif",product.ImagePath)" />
+                    <span>@product.ProductName</span>
+                </a>
+            </li>
+        }
+    </ul>
+</div>
