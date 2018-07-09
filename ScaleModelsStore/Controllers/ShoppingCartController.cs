@@ -17,7 +17,5 @@ namespace ScaleModelsStore.Controllers
         {
             return View();
         }
-
-
     }
 }
