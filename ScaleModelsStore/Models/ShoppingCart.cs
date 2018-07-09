@@ -89,7 +89,7 @@ namespace ScaleModelsStore.Models
 
         public string GetCartId(HttpContextBase ctx)
         {
-            if (ctx.Session[CartSessionKey] == null && ctx.Request.Cookies[CartSessionKey]==null)
+            if(ctx.Session[CartSessionKey]==null)
             {
                 if(!string.IsNullOrWhiteSpace(ctx.User.Identity.Name))
                 {
@@ -99,17 +99,8 @@ namespace ScaleModelsStore.Models
                 {
                     //Guid tmpCartId = new Guid();   //For debug mode
                     Guid tmpCartId = Guid.NewGuid(); //Run without debugging
-                    ctx.Session[CartSessionKey] = tmpCartId.ToString();
-
-                    //Set CartSessionKey to cookies
-                    ctx.Response.Cookies.Add(new HttpCookie(CartSessionKey, tmpCartId.ToString()));
+                    ctx.Session[CartSessionKey] = tmpCartId.ToString();                    
                 }
-            }
-
-            //Get CartSessionKey from cookies
-            if (ctx.Request.Cookies[CartSessionKey] != null && ctx.Session[CartSessionKey] == null)
-            {
-                ctx.Session[CartSessionKey] = ctx.Request.Cookies[CartSessionKey].Value;
             }
 
             return ctx.Session[CartSessionKey].ToString();
