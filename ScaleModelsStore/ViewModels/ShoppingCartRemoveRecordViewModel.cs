@@ -10,7 +10,6 @@ namespace ScaleModelsStore.ViewModels
         public string Message { get; set; }
         public decimal CartTotal { get; set; }
         public int CartQuantity { get; set; }
-        public int ItemQuantity { get; set; }
         public int DeleteId { get; set; }
     }
 }

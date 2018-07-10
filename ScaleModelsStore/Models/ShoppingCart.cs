@@ -15,14 +15,16 @@ namespace ScaleModelsStore.Models
         public static ShoppingCart GetCart(HttpContextBase ctx)
         {
             var cart = new ShoppingCart();
-            cart.ShoppingCartId = cart.GetCartId(ctx);
+            cart.ShoppingCartId = cart.GetCartId(ctx);           
             return cart;
         }
 
-        public void AddToCart(Product product)
+        public bool AddToCart(Product product)
         {
             var item = storeDb.Carts.SingleOrDefault(c => c.CartId == ShoppingCartId
                                                       && c.ProductId == product.ProductId);
+
+            bool isAdded = false;
 
             if(item==null)
             {
@@ -31,36 +33,70 @@ namespace ScaleModelsStore.Models
                     ProductId = product.ProductId,
                     CartId = ShoppingCartId,
                     Quantity = 1
-                };
-
+                };                
                 storeDb.Carts.Add(item);
+                isAdded = true;
             }
-            else
+            else if(item.Quantity<3)
             {
                 item.Quantity++;
+                isAdded = true;
+            }
+            else
+            {                
+                isAdded = false;
             }
 
             storeDb.SaveChanges();
+            return isAdded;
         }
 
-        public int RemoveRecord(int id)
+        public void RemoveRecord(int id)
         {
             var item = storeDb.Carts.Single(c => c.CartId == ShoppingCartId
                                               && c.RecordId == id);
-            int itemQuantity = 0;
+            if (item != null)
+            {
+                storeDb.Carts.Remove(item);
+                storeDb.SaveChanges();
+            }                                   
+        }
+
+        public int RemoveUnit(int id)
+        {
+            var item = storeDb.Carts.Single(c => c.CartId == ShoppingCartId && c.RecordId == id);
+            int changeQuantity=1;
+
             if(item!=null)
             {
-                if(item.Quantity>1)
-                {
-                    item.Quantity--;
-                    itemQuantity = item.Quantity;
-                }
-                else
-                {
-                    storeDb.Carts.Remove(item);
-                }
+                item.Quantity--;
+                changeQuantity = item.Quantity;
+                storeDb.SaveChanges();                           
+            }
+
+            return changeQuantity;
+        }
+
+        public int AddUnit(int id)
+        {
+            var item = storeDb.Carts.Single(c => c.CartId == ShoppingCartId && c.RecordId == id);
+            int changeQuantity = 3; //TODO: Add to Product Entity MaxQuantity property!
+
+            if(item!=null)
+            {
+                item.Quantity++;
+                changeQuantity = item.Quantity;
                 storeDb.SaveChanges();
             }
+
+            return changeQuantity;
+        }
+
+        public int GetItemQuantity(int id)
+        {
+            var item = storeDb.Carts.Single(c => c.CartId == ShoppingCartId && c.RecordId == id);
+
+            var itemQuantity = item.Quantity;
 
             return itemQuantity;
         }
@@ -97,8 +133,8 @@ namespace ScaleModelsStore.Models
                 }
                 else
                 {
-                    //Guid tmpCartId = new Guid();   //For debug mode
-                    Guid tmpCartId = Guid.NewGuid(); //Run without debugging
+                    Guid tmpCartId = new Guid();   //For debug mode
+                    //Guid tmpCartId = Guid.NewGuid(); //Run without debugging
                     ctx.Session[CartSessionKey] = tmpCartId.ToString();                    
                 }
             }

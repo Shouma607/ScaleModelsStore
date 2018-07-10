@@ -29,8 +29,16 @@ namespace ScaleModelsStore.Controllers
         {
             var addedProduct = storeDb.Products.Single(p => p.ProductId == id);
             var cart = ShoppingCart.GetCart(this.HttpContext);
-            cart.AddToCart(addedProduct);
-            return RedirectToAction("Index");
+            bool isAdded=cart.AddToCart(addedProduct);
+            if (isAdded)
+            {                
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                ViewBag.Message = String.Format($"You can not add more than 3 units of {addedProduct.ProductName}");
+                return View("Error");
+            }   
         }
 
         [HttpPost]
@@ -39,19 +47,55 @@ namespace ScaleModelsStore.Controllers
             var cart = ShoppingCart.GetCart(this.HttpContext);
             string productName = storeDb.Carts.Single(c => c.RecordId == id).Product.ProductName;
 
-            int itemQuantity = cart.RemoveRecord(id);
+            cart.RemoveRecord(id);
 
             var results = new ShoppingCartRemoveRecordViewModel
             {
                 Message = Server.HtmlEncode(productName) + " has been removed from your cart.",
                 CartTotal = cart.GetTotal(),
-                CartQuantity = cart.GetQuantity(),
-                ItemQuantity = itemQuantity,
+                CartQuantity = cart.GetQuantity(),                
                 DeleteId = id
             };
 
             return Json(results);
         }
+
+        [HttpPost]
+        public ActionResult RemoveUnit(int id)
+        {
+            var cart = ShoppingCart.GetCart(this.HttpContext);
+            string productName = storeDb.Carts.Single(c => c.RecordId == id).Product.ProductName;
+
+            int itemQuantity = cart.RemoveUnit(id);
+            var results = new ShoppingCartChangeQuantityViewModel
+            {
+                Message = Server.HtmlEncode(productName) + " unit has been removed from your cart",
+                CartTotal = cart.GetTotal(),
+                CartQuantity = cart.GetQuantity(),
+                ItemQuantity = itemQuantity,
+                ChangeId = id
+            };
+            return Json(results);
+        }
+
+        [HttpPost]
+        public ActionResult AddUnit(int id)
+        {
+            var cart = ShoppingCart.GetCart(this.HttpContext);
+            string productName = storeDb.Carts.Single(c => c.RecordId == id).Product.ProductName;
+
+            int itemQuantity = cart.AddUnit(id);
+            var results = new ShoppingCartChangeQuantityViewModel
+            {
+                Message = Server.HtmlEncode(productName) + " unit has been added to your cart",
+                CartTotal = cart.GetTotal(),
+                CartQuantity = cart.GetQuantity(),
+                ItemQuantity = itemQuantity,
+                ChangeId = id
+            };
+            return Json(results);
+        }
+
 
         [ChildActionOnly]
         public ActionResult CartSummary()
@@ -61,6 +105,12 @@ namespace ScaleModelsStore.Controllers
             ViewData["CartQuantity"] = cart.GetQuantity();
 
             return PartialView("CartSummary");
+        }
+
+        [ChildActionOnly]
+        public ActionResult Error()
+        {
+            return PartialView("Error");
         }
     }
 }
