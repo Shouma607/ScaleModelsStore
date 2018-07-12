@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ScaleModelsStore.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,9 +9,12 @@ namespace ScaleModelsStore.Controllers
 {
     public class HomeController : Controller
     {
+        ScaleModelsStoreEntities storeDb = new ScaleModelsStoreEntities();
+
         public ActionResult Index()
         {
-            return View();
+            var products = GetNewProducts(5);
+            return View(products);
         }
 
         public ActionResult About()
@@ -25,6 +29,14 @@ namespace ScaleModelsStore.Controllers
             ViewBag.Message = "Your contact page.";
 
             return View();
+        }
+
+        private List<Product> GetNewProducts(int count)
+        {
+            return storeDb.Products
+                .OrderByDescending(p=>p.ProductId)
+                .Take(count)
+                .ToList();
         }
     }
 }
