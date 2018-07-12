@@ -13,7 +13,7 @@ namespace ScaleModelsStore.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201807091348362_Initial"; }
+            get { return "201807121111319_Initial"; }
         }
         
         string IMigrationMetadata.Source

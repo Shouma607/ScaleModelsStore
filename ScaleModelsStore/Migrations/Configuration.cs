@@ -38,6 +38,23 @@ namespace ScaleModelsStore.Migrations
                 new Product { ProductId = 7, ProductName = "Product7", CategoryId = 2, ManufacturerId = 2, Scale = "1/16", Material = "Metal", Price = 150, QuantityInStock = 1000, Description = "Product7", ImagePath = "\\Content\\Images\\" },
                 new Product { ProductId = 8, ProductName = "Product8", CategoryId = 2, ManufacturerId = 1, Scale = "1/24", Material = "Metal", Price = 90, QuantityInStock = 1000, Description = "Product8", ImagePath = "\\Content\\Images\\" }
                 );
+
+            context.DeliveryTypes.AddOrUpdate(x => x.DeliveryTypeId,
+                new DeliveryTypesDictionary { DeliveryTypeId = 1, DeliveryTypeDrescription = "Self-delivery" },
+                new DeliveryTypesDictionary { DeliveryTypeId = 2, DeliveryTypeDrescription = "Courier delivery" },
+                new DeliveryTypesDictionary { DeliveryTypeId = 3, DeliveryTypeDrescription = "Postal delivery" }
+                );
+
+            context.OrderStatuses.AddOrUpdate(x => x.OrderStatusId,
+                new OrderStatusesDictionary { OrderStatusId = 1, StatusDescription = "Created" },
+                new OrderStatusesDictionary { OrderStatusId = 2, StatusDescription = "Processing" },
+                new OrderStatusesDictionary { OrderStatusId = 3, StatusDescription = "Awaiting shipment" },
+                new OrderStatusesDictionary { OrderStatusId = 4, StatusDescription = "Shipment" },
+                new OrderStatusesDictionary { OrderStatusId = 5, StatusDescription = "Shipped" },
+                new OrderStatusesDictionary { OrderStatusId = 6, StatusDescription = "Paid" },
+                new OrderStatusesDictionary { OrderStatusId = 7, StatusDescription = "Completed" },
+                new OrderStatusesDictionary { OrderStatusId = 8, StatusDescription = "Canceled" }
+                );
             //  This method will be called after migrating to the latest version.
 
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method 

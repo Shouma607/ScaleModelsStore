@@ -40,5 +40,6 @@ namespace ScaleModelsStore.Models
 
         public virtual Category Category { get; set; }
         public virtual Manufacturer Manufacturer { get; set; }
+        public virtual List<OrderToProduct> OrderToProducts { get; set; }
     }
 }

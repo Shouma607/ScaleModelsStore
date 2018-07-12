@@ -36,7 +36,7 @@ namespace ScaleModelsStore.Controllers
             }
             else
             {
-                ViewBag.Message = String.Format($"You can not add more than 3 units of {addedProduct.ProductName}");
+                ViewBag.ErrorMessage = String.Format($"You can not add more than 3 units of {addedProduct.ProductName}");
                 return View("Error");
             }   
         }

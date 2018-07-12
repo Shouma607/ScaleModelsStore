@@ -23,7 +23,7 @@ textarea {
     max-width: 280px;
 }
 
-a.product-page-button{
+a.sms-button{
     text-decoration:none;
     display:inline-block;
     cursor:pointer;
@@ -35,7 +35,7 @@ a.product-page-button{
     border-radius: 5px;     
     user-select:none;    
 }
-.product-page-button:hover{
+.sms-button:hover{
     background-color:black;
     color:silver;
 }

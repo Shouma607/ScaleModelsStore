@@ -62,6 +62,18 @@ namespace ScaleModelsStore.Models
             }                                   
         }
 
+        public void RemoveCart()
+        {
+            var items = storeDb.Carts.Where(c => c.CartId == ShoppingCartId);
+
+            foreach(var item in items)
+            {
+                storeDb.Carts.Remove(item);
+            }
+
+            storeDb.SaveChanges();
+        }
+
         public int RemoveUnit(int id)
         {
             var item = storeDb.Carts.Single(c => c.CartId == ShoppingCartId && c.RecordId == id);
@@ -90,6 +102,24 @@ namespace ScaleModelsStore.Models
             }
 
             return changeQuantity;
+        }
+
+        public void CreateOrder(Order order)
+        {
+            var items = GetCartItems();
+
+            foreach(var item in items)
+            {
+                var orderToProduct = new OrderToProduct
+                {
+                    OrderId = order.OrderId,
+                    ProductId = item.ProductId,
+                    Quantity = item.Quantity
+                };
+                storeDb.OrderToProducts.Add(orderToProduct);
+            }
+            storeDb.SaveChanges();
+            RemoveCart();
         }
 
         public int GetItemQuantity(int id)
