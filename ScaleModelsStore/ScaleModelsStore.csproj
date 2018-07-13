@@ -171,10 +171,13 @@
     <Compile Include="Models\Order.cs" />
     <Compile Include="Models\OrderToProduct.cs" />
     <Compile Include="Models\Product.cs" />
+    <Compile Include="Models\ProductMaxQuantityCheck.cs" />
     <Compile Include="Models\ScaleModelsStoreEntities.cs" />
     <Compile Include="Models\ShoppingCart.cs" />
     <Compile Include="Models\User.cs" />
+    <Compile Include="Models\Utils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\ProductListFilterViewModel.cs" />
     <Compile Include="ViewModels\ShoppingCartRemoveRecordViewModel.cs" />
     <Compile Include="ViewModels\ShoppingCartChangeQuantityViewModel.cs" />
     <Compile Include="ViewModels\ShoppingCartViewModel.cs" />
@@ -189,6 +192,7 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\filter-products.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -198,9 +202,11 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\order-form.js" />
+    <Content Include="Scripts\products-availability.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\shopping-cart.js" />
+    <Content Include="Scripts\sorting-products-list.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

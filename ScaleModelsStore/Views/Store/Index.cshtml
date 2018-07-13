@@ -3,20 +3,42 @@
 @{
     ViewBag.Title="Products List";
 }
-
+<script src="~/Scripts/jquery-1.10.2.min.js" type="text/javascript"></script>
+<script src="~/Scripts/sorting-products-list.js" type="text/javascript"></script>
+<script src="~/Scripts/filter-products.js" type="text/javascript"></script>
 <p>
     Select from @Model.Count() products:
 </p>
 <div>
     <h3>Products List</h3>
-    <ul>
+    <div>
+        <div class="sorting">
+            <p>
+                Sort by: @Html.DropDownList("SortOptionsList", new SelectList(ViewBag.SortOptions as System.Collections.IEnumerable, "Key", "Value"), "Choose sort option")
+            </p>
+        </div>
+        @using (Html.BeginForm())
+        {
+            <div class="filtering">
+                <p>Show/Hide filter options @Html.CheckBox("isFilterShown")</p>
+            </div>
+            <div class="filter-options">
+                <p>Filter by Category: @Html.DropDownList("FilterByCategory", ViewBag.FilterOptionCategories as SelectList, "None")</p>
+                <p>Filter by Manufacturer: @Html.DropDownList("FilterByManufacturer", ViewBag.FilterOptionManufacturers as SelectList, "None")</p>
+                <p>Filter by Scale: @Html.DropDownList("FilterByScale", new SelectList(ViewBag.FilterOptionScale as System.Collections.IEnumerable, "Key", "Value"), "None")</p>
+                <input class="submit-button" type="submit" value="Apply filter" />       
+            </div>
+        }
+    </div>
+    <ul id="sorting-start">
         @foreach(var product in Model)
         {
-            <li>
+            <li class="item" sort-by-id="@product.ProductId" sort-by-price="@product.Price">
                 <a href="@Url.Action("Product",new { id=product.ProductId})">
                     <img alt="@product.ProductName" src="@string.Format("{0}placeholder.gif",product.ImagePath)"/>
                     <span>@product.ProductName</span>
                 </a>
+                <span>| Price: @product.Price</span>
             </li>
         }
     </ul>

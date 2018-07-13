@@ -23,14 +23,14 @@ textarea {
     max-width: 280px;
 }
 
-a.sms-button{
+.sms-button{
     text-decoration:none;
     display:inline-block;
     cursor:pointer;
-    padding:12px;
+    padding:10px;
     border-color: black;
-    border-width:3px;
-    background-color:silver;
+    border-width:1px;
+    background-color:#838383;
     color:black;
     border-radius: 5px;     
     user-select:none;    
@@ -38,4 +38,16 @@ a.sms-button{
 .sms-button:hover{
     background-color:black;
     color:silver;
+}
+.disabled{
+    background-color:darkgray;
+    color:white;
+}
+.disabled:hover {
+    background-color: darkgray;
+    color:white;
+}
+
+.filter-options{
+    display: none;
 }

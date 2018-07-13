@@ -27,10 +27,10 @@
                     $('#cart-total').text(data.CartTotal);
                     $('#update-msg').text(data.Message);
                     $('#cart-status').text('Cart (' + data.CartQuantity + ')');
+                    $("a[class='RemoveUnitLink'][data-id="+recordToDelete+"]").attr("qntt", parseInt(checkQuantity) - 1);
+                    $("a[class='AddUnitLink'][data-id=" + recordToDelete + "]").attr("qntt", parseInt(checkQuantity) - 1);
                 });
         }
-        $(this).attr("qntt", parseInt(checkQuantity) - 1);
-        $("a[class='AddUnitLink'][data-id=" + recordToDelete + "]").attr("qntt", parseInt(checkQuantity) - 1);
     });
     $(".AddUnitLink").click(function () {
         var recordToAdd = $(this).attr("data-id");
@@ -43,13 +43,18 @@
         if (recordToAdd !== '' && parseInt(checkQuantity) !== parseInt(maxItemsQuantity)) {
             $.post("/ShoppingCart/AddUnit", { "id": recordToAdd },
                 function (data) {
-                    $('#item-qntt-' + data.ChangeId).text(data.ItemQuantity);
-                    $('#cart-total').text(data.CartTotal);
-                    $('#update-msg').text(data.Message);
-                    $('#cart-status').text('Cart (' + data.CartQuantity + ')');
+                    if (parseInt(checkQuantity) !== parseInt(data.ItemQuantity)) {
+                        $('#item-qntt-' + data.ChangeId).text(data.ItemQuantity);
+                        $('#cart-total').text(data.CartTotal);
+                        $('#update-msg').text(data.Message);
+                        $('#cart-status').text('Cart (' + data.CartQuantity + ')');
+                        $("a[class='AddUnitLink'][data-id="+recordToAdd+"]").attr("qntt", parseInt(checkQuantity) + 1);
+                        $("a[class='RemoveUnitLink'][data-id=" + recordToAdd + "]").attr("qntt", parseInt(checkQuantity) + 1);
+                    } else {
+                        $('#update-msg').text('Item is out of stock');
+                        return;
+                    }
                 });
         }
-        $(this).attr("qntt", parseInt(checkQuantity) + 1);
-        $("a[class='RemoveUnitLink'][data-id=" + recordToAdd + "]").attr("qntt", parseInt(checkQuantity) + 1);
     });
 });

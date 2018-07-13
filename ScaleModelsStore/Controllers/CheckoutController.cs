@@ -19,7 +19,10 @@ namespace ScaleModelsStore.Controllers
                 ViewBag.ErrorMessage = "Your cart is empty!";
                 return View("Error");
             }
-            
+
+            var list = new SelectList(Utils.CountriesList(),"Key","Value");
+            var sortList = list.OrderBy(p => p.Text).ToList();
+            ViewBag.Countries = sortList;
             ViewBag.DeliveryTypeId = new SelectList(storeDb.DeliveryTypes, "DeliveryTypeId", "DeliveryTypeDrescription");
             return View();
         }
@@ -29,16 +32,30 @@ namespace ScaleModelsStore.Controllers
         {
             if(ModelState.IsValid)
             {
+                var cart = ShoppingCart.GetCart(this.HttpContext);
                 order.OrderOpenDate = DateTime.Now;
                 order.OrderStatusId = 1;
+                List<Product> results=ProductMaxQuantityCheck.CheckMaxQuantity(cart, order);
+                if(results.Count>0)
+                {        
+                    foreach(var item in results)
+                    {
+                        cart.RemoveByProductId(item.ProductId);
+                    }
+                    ViewData["RestrictedProducts"] = results;                    
+                    return View("Error");
+                }
                 storeDb.Orders.Add(order);
-                storeDb.SaveChanges();
-                var cart = ShoppingCart.GetCart(this.HttpContext);
+                storeDb.SaveChanges();                
                 cart.CreateOrder(order);
 
                 TempData["OrderId"] = order.OrderId;
                 return RedirectToAction("Complete");
             }
+
+            var list = new SelectList(Utils.CountriesList(), "Key", "Value");
+            var sortList = list.OrderBy(p => p.Text).ToList();
+            ViewBag.Countries = sortList;
             ViewBag.DeliveryTypeId = new SelectList(storeDb.DeliveryTypes, "DeliveryTypeId", "DeliveryTypeDrescription");
             return View(order);
         }
@@ -56,5 +73,6 @@ namespace ScaleModelsStore.Controllers
                 return View("Error");
             }
         }
+
     }
 }

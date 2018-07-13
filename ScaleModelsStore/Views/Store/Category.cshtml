@@ -1,19 +1,29 @@
 ﻿@model ScaleModelsStore.Models.Category
 
 @{
-    ViewBag.Title="Browse categories";
+    ViewBag.Title = "Browse categories";
 }
+<script src="~/Scripts/jquery-1.10.2.min.js" type="text/javascript"></script>
+<script src="~/Scripts/sorting-products-list.js" type="text/javascript"></script>
 
 <div>
     <h3>@Model.Name Products</h3>
-    <ul>
-        @foreach(var product in Model.Products)
+    <div>
+        <div class="sorting">
+            <p>
+                Sort by: @Html.DropDownList("SortOptionsList", new SelectList(ViewBag.SortOptions as System.Collections.IEnumerable, "Key", "Value"), "Choose sort option")
+            </p>
+        </div>
+    </div>
+    <ul id="sorting-start">
+        @foreach (var product in Model.Products)
         {
-            <li>
+            <li class="item" sort-by-id="@product.ProductId" sort-by-price="@product.Price">
                 <a href="@Url.Action("Product",new { id=product.ProductId})">
                     <img alt="@product.ProductName" src="@string.Format("{0}placeholder.gif",product.ImagePath)" />
                     <span>@product.ProductName</span>
                 </a>
+                <span>| Price: @product.Price</span>
             </li>
         }
     </ul>

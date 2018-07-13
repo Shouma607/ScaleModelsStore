@@ -3,21 +3,8 @@
 @{ 
     ViewBag.Title = "Product details";
 }
-
-@*<script type="text/javascript">
-    $(function () {        
-        $.ajaxSetup({ cache: false });
-        $('#to-cart').click(function (e) {
-            e.preventDefault();
-            var options = { "backdrop": "static", keyboard: true };
-            $.get(this.href, function (data) {
-                $('#dialogContent').html(data);
-                $('#modDialog').modal(options);
-                $('#modDialog').modal('show');
-            });
-        });           
-    })
-</script>*@
+<script src="~/Scripts/jquery-1.10.2.min.js" type="text/javascript"></script>
+<script src="~/Scripts/products-availability.js" type="text/javascript"></script>
 
 
 <h2>@Model.ProductName</h2>
@@ -49,19 +36,11 @@
     <p>
         <h4>Price:</h4>
         @string.Format("{0:F}", Model.Price)
-    </p>
-    <p>        
-        <a class="sms-button" id="to-cart" href="@Url.Action("AddToCart","ShoppingCart",new { id=Model.ProductId})" title="To Cart"><span>Add to cart</span></a>
-        
-        <a class="sms-button" href="@Url.Action()" title="Add to Wish List"><span>To wish list</span></a>
+    </p>             
+    <p>
+        <button class="sms-button" id="to-cart" data-id=@Model.QuantityInStock onclick="location.href='@Url.Action("AddToCart","ShoppingCart",new { id=Model.ProductId})'"></button>
+        <button class="sms-button" id="to-wishlist" @*onclick="location.href='@Url.Action()'"*@>To Wish list</button>
     </p>
 
-    @*<div id="modDialog" class="modal">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div id="dialogContent"></div>
-            </div>
-        </div>
-    </div>*@
 
 </div>

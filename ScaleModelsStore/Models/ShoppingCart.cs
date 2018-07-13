@@ -23,6 +23,7 @@ namespace ScaleModelsStore.Models
         {
             var item = storeDb.Carts.SingleOrDefault(c => c.CartId == ShoppingCartId
                                                       && c.ProductId == product.ProductId);
+            var productDb = storeDb.Products.Single(p => p.ProductId == product.ProductId);
 
             bool isAdded = false;
 
@@ -35,12 +36,15 @@ namespace ScaleModelsStore.Models
                     Quantity = 1
                 };                
                 storeDb.Carts.Add(item);
+                productDb.QuantityInStock--; 
                 isAdded = true;
             }
             else if(item.Quantity<3)
             {
                 item.Quantity++;
+                productDb.QuantityInStock--; //not correct
                 isAdded = true;
+
             }
             else
             {                
@@ -55,14 +59,16 @@ namespace ScaleModelsStore.Models
         {
             var item = storeDb.Carts.Single(c => c.CartId == ShoppingCartId
                                               && c.RecordId == id);
+            var product = storeDb.Products.Single(p => p.ProductId == item.ProductId);
             if (item != null)
             {
                 storeDb.Carts.Remove(item);
+                product.QuantityInStock = product.QuantityInStock + item.Quantity;
                 storeDb.SaveChanges();
             }                                   
         }
 
-        public void RemoveCart()
+        private void RemoveCart()
         {
             var items = storeDb.Carts.Where(c => c.CartId == ShoppingCartId);
 
@@ -74,14 +80,28 @@ namespace ScaleModelsStore.Models
             storeDb.SaveChanges();
         }
 
+        public void RemoveByProductId(int id)
+        {
+            var item = storeDb.Carts.Single(c => c.ProductId == id);
+            var product = storeDb.Products.Single(p => p.ProductId == id);
+            if(item!=null)
+            {
+                product.QuantityInStock = product.QuantityInStock + item.Quantity;
+                storeDb.Carts.Remove(item);
+                storeDb.SaveChanges();
+            }
+        }
+
         public int RemoveUnit(int id)
         {
             var item = storeDb.Carts.Single(c => c.CartId == ShoppingCartId && c.RecordId == id);
+            var product = storeDb.Products.Single(p => p.ProductId == item.ProductId);
             int changeQuantity=1;
 
             if(item!=null)
             {
                 item.Quantity--;
+                product.QuantityInStock++;
                 changeQuantity = item.Quantity;
                 storeDb.SaveChanges();                           
             }
@@ -92,13 +112,19 @@ namespace ScaleModelsStore.Models
         public int AddUnit(int id)
         {
             var item = storeDb.Carts.Single(c => c.CartId == ShoppingCartId && c.RecordId == id);
+            var product = storeDb.Products.Single(p => p.ProductId == item.ProductId);
             int changeQuantity = 3; //TODO: Add to Product Entity MaxQuantity property!
 
-            if(item!=null)
+            if(item!=null&&product.QuantityInStock>0)
             {
-                item.Quantity++;
+                item.Quantity++;                
+                product.QuantityInStock--; //not correct
                 changeQuantity = item.Quantity;
                 storeDb.SaveChanges();
+            }
+            else
+            {
+                changeQuantity = item.Quantity;
             }
 
             return changeQuantity;

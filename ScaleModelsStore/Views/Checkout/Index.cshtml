@@ -32,10 +32,10 @@
         </div>
         <div>
             <div class="order-label">
-                @Html.LabelFor(model => model.LastName, "Delivery Type")
+                @Html.LabelFor(model => model.DeliveryTypeId, "Delivery Type")
             </div>
             <div class="order-field">
-                @Html.DropDownList("DeliveryTypeId")
+                @Html.DropDownListFor(model=>model.DeliveryTypeId,ViewBag.DeliveryTypeId as SelectList)
                 @Html.ValidationMessageFor(model => model.DeliveryTypeId)
             </div>
         </div>
@@ -47,10 +47,10 @@
                 @Html.EditorFor(model => model.PostalCode)
             </div>
             <div class="order-label">
-                @Html.LabelFor(model => model.Country, "Country")
+                @Html.LabelFor(model=>model.Country,"Country")
             </div>
             <div class="order-field">
-                @Html.EditorFor(model => model.Country)
+                @Html.DropDownListFor(model => model.Country,new SelectList(ViewBag.Countries,"Text","Text"))
             </div>
             <div class="order-label">
                 @Html.LabelFor(model => model.City, "City")

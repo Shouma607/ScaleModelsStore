@@ -9,5 +9,18 @@
         <h1>Error has been occured.</h1>
         <h2>@ViewBag.ErrorMessage</h2>
     </hgroup>
+    <div>
+        @if (ViewData["RestrictedProducts"] != null)
+        {
+            foreach (var item in ViewData["RestrictedProducts"] as List<ScaleModelsStore.Models.Product>)
+            {
+                <p>
+                    You can not buy more than 3 units of @item.ProductName.
+                    This items was deleted from your cart!
+                </p>
+            }
+        }
+
+    </div>
 </body>
 </html>

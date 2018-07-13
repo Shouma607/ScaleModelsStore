@@ -85,14 +85,28 @@ namespace ScaleModelsStore.Controllers
             string productName = storeDb.Carts.Single(c => c.RecordId == id).Product.ProductName;
 
             int itemQuantity = cart.AddUnit(id);
-            var results = new ShoppingCartChangeQuantityViewModel
+            ShoppingCartChangeQuantityViewModel results;
+            if (itemQuantity != 0)
             {
-                Message = Server.HtmlEncode(productName) + " unit has been added to your cart",
-                CartTotal = cart.GetTotal(),
-                CartQuantity = cart.GetQuantity(),
-                ItemQuantity = itemQuantity,
-                ChangeId = id
-            };
+                results = new ShoppingCartChangeQuantityViewModel
+                {
+                    Message = Server.HtmlEncode(productName) + " unit has been added to your cart",
+                    CartTotal = cart.GetTotal(),
+                    CartQuantity = cart.GetQuantity(),
+                    ItemQuantity = itemQuantity,
+                    ChangeId = id
+                };
+            }
+            else
+            {
+                results = new ShoppingCartChangeQuantityViewModel
+                {
+                    Message = Server.HtmlEncode(productName) + " is out of stock",                    
+                    ItemQuantity = itemQuantity,
+                    ChangeId = id
+                };
+            }
+
             return Json(results);
         }
 
