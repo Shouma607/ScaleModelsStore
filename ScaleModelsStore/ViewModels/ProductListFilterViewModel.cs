@@ -9,8 +9,8 @@ namespace ScaleModelsStore.ViewModels
     public class ProductListFilterViewModel
     {
         public List<Product> Products { get; set; }
-        public string FilterByCategoryId { get; set; }
-        public string FilterByManufacturerId { get; set; }
+        public int FilterByCategoryId { get; set; }
+        public int FilterByManufacturerId { get; set; }
         public string FilterByScale { get; set; }
         public bool isFilterShown { get; set; }
     }

@@ -10,7 +10,7 @@ namespace ScaleModelsStore.ViewModels
     {
         public Category Category { get; set; }
         public List<Product> Products { get; set; }
-        public string FilterByManufacturerId { get; set; }
+        public int FilterByManufacturerId { get; set; }
         public string FilterByScale { get; set; }
         public bool isFilterShown { get; set; }
     }

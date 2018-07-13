@@ -16,32 +16,20 @@ namespace ScaleModelsStore.Controllers
         public ActionResult Index(ProductListFilterViewModel model)
         {
             var products = storeDb.Products.ToList();
-
-            int CategoryId=0, ManufacturerId=0;
-            string Scale=null;
            
-
-            if (!String.IsNullOrEmpty(model.FilterByCategoryId))
-                CategoryId = Int32.Parse(model.FilterByCategoryId);
-            if (!String.IsNullOrEmpty(model.FilterByManufacturerId))
-                ManufacturerId = Int32.Parse(model.FilterByManufacturerId);
+            if (model.FilterByCategoryId!=0)
+                products = products.Where(p => p.CategoryId == model.FilterByCategoryId).ToList();
+            if (model.FilterByManufacturerId!=0)
+                products = products.Where(p => p.ManufacturerId == model.FilterByManufacturerId).ToList();
             if (!String.IsNullOrEmpty(model.FilterByScale))
-                Scale = "1/" + model.FilterByScale;            
-
-
-            if (CategoryId != 0)
-                products=products.Where(p => p.CategoryId == CategoryId).ToList();
-            if (ManufacturerId != 0)
-                products=products.Where(p => p.ManufacturerId == ManufacturerId).ToList();
-            if (Scale != null)
-                products=products.Where(p => p.Scale == Scale).ToList();            
+                products = products.Where(p => p.Scale == "1/" + model.FilterByScale).ToList();
 
             var viewModel = new ProductListFilterViewModel
             {
                 Products = products,
-                FilterByCategoryId = CategoryId.ToString(),
-                FilterByManufacturerId = ManufacturerId.ToString(),
-                FilterByScale = Scale!=null?Scale.Substring(2):""                
+                FilterByCategoryId = model.FilterByCategoryId,
+                FilterByManufacturerId = model.FilterByManufacturerId,
+                FilterByScale = "1/" + model.FilterByScale
             };
 
             ViewBag.SortOptions = Utils.GetSortOptions();
@@ -55,28 +43,19 @@ namespace ScaleModelsStore.Controllers
         public ActionResult Category(string categoryName, CategoryFilterViewModel model)
         {
             var category = storeDb.Categories.Include("Products").Single(c => c.Name == categoryName);
-            List<Product> products = category.Products;
+            List<Product> products = category.Products;            
 
-            int ManufacturerId = 0;
-            string Scale = null;
-           // bool checkStatus = model.isFilterShown;
-
-            if (!String.IsNullOrEmpty(model.FilterByManufacturerId))
-                ManufacturerId = Int32.Parse(model.FilterByManufacturerId);
+            if (model.FilterByManufacturerId!=0)
+                products = products.Where(p => p.ManufacturerId == model.FilterByManufacturerId).ToList();
             if (!String.IsNullOrEmpty(model.FilterByScale))
-                Scale = "1/" + model.FilterByScale;
-
-            if (ManufacturerId != 0)
-                products = products.Where(p => p.ManufacturerId == ManufacturerId).ToList();
-            if (Scale != null)
-                products = products.Where(p => p.Scale == Scale).ToList();
-
+                products = products.Where(p => p.Scale == "1/" + model.FilterByScale).ToList();          
+            
             var viewModel = new CategoryFilterViewModel
             {
                 Category = category,
                 Products = products,
-                FilterByManufacturerId = ManufacturerId.ToString(),
-                FilterByScale = Scale != null ? Scale.Substring(2) : ""
+                FilterByManufacturerId = model.FilterByManufacturerId,
+                FilterByScale = "1/" + model.FilterByScale
             };
 
             ViewBag.SortOptions = Utils.GetSortOptions();
