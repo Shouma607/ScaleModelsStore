@@ -177,6 +177,7 @@
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\Utils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\CategoryFilterViewModel.cs" />
     <Compile Include="ViewModels\ProductListFilterViewModel.cs" />
     <Compile Include="ViewModels\ShoppingCartRemoveRecordViewModel.cs" />
     <Compile Include="ViewModels\ShoppingCartChangeQuantityViewModel.cs" />

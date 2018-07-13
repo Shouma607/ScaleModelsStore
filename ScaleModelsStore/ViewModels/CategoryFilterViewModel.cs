@@ -6,10 +6,10 @@ using System.Web;
 
 namespace ScaleModelsStore.ViewModels
 {
-    public class ProductListFilterViewModel
+    public class CategoryFilterViewModel
     {
+        public Category Category { get; set; }
         public List<Product> Products { get; set; }
-        public string FilterByCategoryId { get; set; }
         public string FilterByManufacturerId { get; set; }
         public string FilterByScale { get; set; }
         public bool isFilterShown { get; set; }

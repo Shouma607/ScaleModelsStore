@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ScaleModelsStore.Models.Product>
+﻿@model ScaleModelsStore.ViewModels.ProductListFilterViewModel
 
 @{
     ViewBag.Title="Products List";
@@ -7,7 +7,7 @@
 <script src="~/Scripts/sorting-products-list.js" type="text/javascript"></script>
 <script src="~/Scripts/filter-products.js" type="text/javascript"></script>
 <p>
-    Select from @Model.Count() products:
+    Select from @Model.Products.Count() products:
 </p>
 <div>
     <h3>Products List</h3>
@@ -20,18 +20,19 @@
         @using (Html.BeginForm())
         {
             <div class="filtering">
-                <p>Show/Hide filter options @Html.CheckBox("isFilterShown")</p>
+                <p>Show/Hide filter options @Html.CheckBoxFor(model=>model.isFilterShown)</p>
             </div>
             <div class="filter-options">
-                <p>Filter by Category: @Html.DropDownList("FilterByCategory", ViewBag.FilterOptionCategories as SelectList, "None")</p>
-                <p>Filter by Manufacturer: @Html.DropDownList("FilterByManufacturer", ViewBag.FilterOptionManufacturers as SelectList, "None")</p>
-                <p>Filter by Scale: @Html.DropDownList("FilterByScale", new SelectList(ViewBag.FilterOptionScale as System.Collections.IEnumerable, "Key", "Value"), "None")</p>
-                <input class="submit-button" type="submit" value="Apply filter" />       
+                <p>Filter by Category: @Html.DropDownListFor(model=>model.FilterByCategoryId, ViewBag.FilterOptionCategories as SelectList, "None")</p>
+                <p>Filter by Manufacturer: @Html.DropDownListFor(model=>model.FilterByManufacturerId, ViewBag.FilterOptionManufacturers as SelectList, "None")</p>
+                <p>Filter by Scale: @Html.DropDownListFor(model=>model.FilterByScale, new SelectList(ViewBag.FilterOptionScale as System.Collections.IEnumerable, "Key", "Value"), "None")</p>
+                <input class="submit-button" id="apply" type="submit" value="Apply filter" />   
+                <input class="submit-button" id="reset" type="submit" value="Reset filter" />
             </div>
         }
     </div>
     <ul id="sorting-start">
-        @foreach(var product in Model)
+        @foreach(var product in Model.Products)
         {
             <li class="item" sort-by-id="@product.ProductId" sort-by-price="@product.Price">
                 <a href="@Url.Action("Product",new { id=product.ProductId})">
@@ -42,5 +43,11 @@
             </li>
         }
     </ul>
+    @if (Model.Products.Count == 0)
+    {
+        <div class="empty-filter-result">
+            No results found with applied filter
+        </div>
+    }
 </div>
 

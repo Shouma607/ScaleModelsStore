@@ -1,19 +1,32 @@
-﻿@model ScaleModelsStore.Models.Category
+﻿@model ScaleModelsStore.ViewModels.CategoryFilterViewModel
 
 @{
     ViewBag.Title = "Browse categories";
 }
 <script src="~/Scripts/jquery-1.10.2.min.js" type="text/javascript"></script>
 <script src="~/Scripts/sorting-products-list.js" type="text/javascript"></script>
+<script src="~/Scripts/filter-products.js" type="text/javascript"></script>
 
 <div>
-    <h3>@Model.Name Products</h3>
+    <h3>@Model.Category.Name Products</h3>
     <div>
         <div class="sorting">
             <p>
                 Sort by: @Html.DropDownList("SortOptionsList", new SelectList(ViewBag.SortOptions as System.Collections.IEnumerable, "Key", "Value"), "Choose sort option")
             </p>
         </div>
+        @using (Html.BeginForm())
+        {
+            <div class="filtering">
+                <p>Show/Hide filter options @Html.CheckBoxFor(model => model.isFilterShown)</p>
+            </div>
+            <div class="filter-options">
+                <p>Filter by Manufacturer: @Html.DropDownListFor(model => model.FilterByManufacturerId, ViewBag.FilterOptionManufacturers as SelectList, "None")</p>
+                <p>Filter by Scale: @Html.DropDownListFor(model => model.FilterByScale, new SelectList(ViewBag.FilterOptionScale as System.Collections.IEnumerable, "Key", "Value"), "None")</p>
+                <input class="submit-button" id="apply" type="submit" value="Apply filter" />
+                <input class="submit-button" id="reset" type="submit" value="Reset filter" />
+            </div>
+        }
     </div>
     <ul id="sorting-start">
         @foreach (var product in Model.Products)
@@ -27,5 +40,11 @@
             </li>
         }
     </ul>
+    @if (Model.Products.Count == 0)
+    {
+        <div class="empty-filter-result">
+            No results found with applied filter
+        </div>
+    }
 </div>
 
