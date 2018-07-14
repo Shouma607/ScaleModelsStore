@@ -50,7 +50,7 @@
                 @Html.LabelFor(model=>model.Country,"Country")
             </div>
             <div class="order-field">
-                @Html.DropDownListFor(model => model.Country,new SelectList(ViewBag.Countries,"Text","Text"))
+                @Html.DropDownListFor(model => model.Country,new SelectList(ViewBag.Countries,"Text","Text"),"Select country")
             </div>
             <div class="order-label">
                 @Html.LabelFor(model => model.City, "City")

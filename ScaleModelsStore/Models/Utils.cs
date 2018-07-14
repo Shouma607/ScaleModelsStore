@@ -6,7 +6,7 @@ using System.Web;
 
 namespace ScaleModelsStore.Models
 {
-    public class Utils
+    public partial class Utils
     {
         public static Dictionary<String, String> CountriesList()
         {

@@ -5,7 +5,7 @@ using System.Web;
 
 namespace ScaleModelsStore.Models
 {
-    public class ProductMaxQuantityCheck
+    public partial class ProductMaxQuantityCheck
     {       
 
         public static List<Product> CheckMaxQuantity(ShoppingCart cart, Order order)
