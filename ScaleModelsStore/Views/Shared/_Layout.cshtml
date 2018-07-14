@@ -17,6 +17,16 @@
                     <span class="icon-bar"></span>
                 </button>
                 @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+
+            </div>
+            <div class="search">
+                @using (Html.BeginForm())
+                {
+                    <p>
+                        @Html.TextBox("SearchString")
+                        <input class="submit-button" type="submit" value="Search" formaction="@Url.Action("Search","Store")"/>
+                    </p>
+                }
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">

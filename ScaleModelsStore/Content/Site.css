@@ -51,3 +51,9 @@ textarea {
 .filter-options{
     display: none;
 }
+.search{
+    float:left;
+    padding-top:12px;
+    padding-left:50px;
+    padding-right:30px;
+}

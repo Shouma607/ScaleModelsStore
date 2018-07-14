@@ -37,7 +37,7 @@ namespace ScaleModelsStore.Migrations
                 new Product { ProductId = 6, ProductName = "Product6", CategoryId = 3, ManufacturerId = 3, Scale = "1/8", Material = "Plastic", Price = 180, QuantityInStock = 1000, Description = "Product6", ImagePath = "\\Content\\Images\\" },
                 new Product { ProductId = 7, ProductName = "Product7", CategoryId = 2, ManufacturerId = 2, Scale = "1/16", Material = "Metal", Price = 150, QuantityInStock = 1000, Description = "Product7", ImagePath = "\\Content\\Images\\" },
                 new Product { ProductId = 8, ProductName = "Product8", CategoryId = 2, ManufacturerId = 1, Scale = "1/24", Material = "Metal", Price = 90, QuantityInStock = 1000, Description = "Product8", ImagePath = "\\Content\\Images\\" },
-                new Product { ProductId = 9, ProductName = "Product9", CategoryId = 2, ManufacturerId = 2, Scale = "1/6", Material = "Metal", Price = 300, QuantityInStock = 1, Description = "Product9", ImagePath = "\\Content\\Images\\" }
+                new Product { ProductId = 9, ProductName = "Product9", CategoryId = 2, ManufacturerId = 2, Scale = "1/6", Material = "Metal", Price = 300, QuantityInStock = 2, Description = "Product9", ImagePath = "\\Content\\Images\\" }
                 );
 
             context.DeliveryTypes.AddOrUpdate(x => x.DeliveryTypeId,

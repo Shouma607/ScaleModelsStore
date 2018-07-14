@@ -16,7 +16,26 @@ namespace ScaleModelsStore.Controllers
         public ActionResult Index(ProductListFilterViewModel model)
         {
             var products = storeDb.Products.ToList();
-           
+            var viewModel = new ProductListFilterViewModel();
+            ViewBag.SortOptions = Utils.GetSortOptions();
+            ViewBag.FilterOptionCategories = new SelectList(storeDb.Categories, "CategoryId", "Name");
+            ViewBag.FilterOptionManufacturers = new SelectList(storeDb.Manufacturers, "ManufacturerId", "Name");
+            ViewBag.FilterOptionScale = Utils.GetScalesList(storeDb.Products.ToList());
+
+            if (TempData["Products"] != null)
+            {
+                products = TempData["Products"] as List<Product>;
+
+                if (products.Count == 0)
+                {
+                    viewModel.Products = products;
+                    ViewBag.ErrorMessage = "The search has not given any results";
+                    return View(viewModel);
+                }
+            }
+
+            if (model.Products!=null)
+                products = model.Products;
             if (model.FilterByCategoryId!=0)
                 products = products.Where(p => p.CategoryId == model.FilterByCategoryId).ToList();
             if (model.FilterByManufacturerId!=0)
@@ -24,18 +43,17 @@ namespace ScaleModelsStore.Controllers
             if (!String.IsNullOrEmpty(model.FilterByScale))
                 products = products.Where(p => p.Scale == "1/" + model.FilterByScale).ToList();
 
-            var viewModel = new ProductListFilterViewModel
+            if (products.Count == 0)
             {
-                Products = products,
-                FilterByCategoryId = model.FilterByCategoryId,
-                FilterByManufacturerId = model.FilterByManufacturerId,
-                FilterByScale = "1/" + model.FilterByScale
-            };
+                viewModel.Products = products;
+                ViewBag.ErrorMessage = "No results found with applied filters";
+                return View(viewModel);
+            }
 
-            ViewBag.SortOptions = Utils.GetSortOptions();
-            ViewBag.FilterOptionCategories = new SelectList(storeDb.Categories, "CategoryId", "Name");
-            ViewBag.FilterOptionManufacturers = new SelectList(storeDb.Manufacturers, "ManufacturerId", "Name");
-            ViewBag.FilterOptionScale = Utils.GetScalesList(storeDb.Products.ToList());
+            viewModel.Products = products;
+            viewModel.FilterByCategoryId = model.FilterByCategoryId;
+            viewModel.FilterByManufacturerId = model.FilterByManufacturerId;
+            viewModel.FilterByScale = "1/" + model.FilterByScale;
             return View(viewModel);
         }
 
@@ -77,6 +95,23 @@ namespace ScaleModelsStore.Controllers
         {
             var categories = storeDb.Categories.ToList();
             return PartialView(categories);
+        }
+
+        public ActionResult Search(FormCollection values)
+        {
+            var products = storeDb.Products.Include("Category")
+                             .Include("Manufacturer").ToList();
+
+            if (!String.IsNullOrEmpty(values["SearchString"]))
+            {
+                products = products.Where(p => p.ProductName.ToLower().Contains(values["SearchString"].ToLower())
+                                         ||p.Category.Name.ToLower().Contains(values["SearchString"].ToLower())
+                                         ||p.Manufacturer.Name.ToLower().Contains(values["SearchString"].ToLower()))
+                                         .ToList();
+            }
+
+            TempData["Products"] = products;            
+            return RedirectToAction("Index");
         }
     }
 }
