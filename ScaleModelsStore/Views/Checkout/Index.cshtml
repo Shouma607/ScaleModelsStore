@@ -45,24 +45,29 @@
             </div>
             <div class="order-field">
                 @Html.EditorFor(model => model.PostalCode)
+                @Html.ValidationMessageFor(model=>model.PostalCode)
             </div>
             <div class="order-label">
-                @Html.LabelFor(model=>model.Country,"Country")
+                @Html.LabelFor(model=>model.Country,"Country")                
             </div>
             <div class="order-field">
-                @Html.DropDownListFor(model => model.Country,new SelectList(ViewBag.Countries,"Text","Text"),"Select country")
+                @Html.DropDownListFor(model => model.Country, new SelectList(ViewBag.Countries, "Text", "Text"), "Select country")
+                @Html.ValidationMessageFor(model => model.Country)
             </div>
             <div class="order-label">
                 @Html.LabelFor(model => model.City, "City")
             </div>
             <div class="order-field">
                 @Html.EditorFor(model => model.City)
+                @Html.ValidationMessageFor(model=>model.City)
             </div>
             <div class="order-label">
                 @Html.LabelFor(model => model.Address, "Address")
             </div>
             <div class="order-field">
                 @Html.TextAreaFor(model => model.Address)
+                @Html.ValidationMessageFor(model=>model.Address)
+                
             </div>
         </div>
         <div>
