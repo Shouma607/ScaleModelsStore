@@ -29,16 +29,16 @@ namespace ScaleModelsStore.Controllers
         {
             var addedProduct = storeDb.Products.Single(p => p.ProductId == id);
             var cart = ShoppingCart.GetCart(this.HttpContext);
-            bool isAdded=cart.AddToCart(addedProduct);
+            bool isAdded = cart.AddToCart(addedProduct);
             if (isAdded)
-            {                
+            {
                 return RedirectToAction("Index");
             }
             else
             {
-                ViewBag.ErrorMessage = String.Format($"You can not add more than 3 units of {addedProduct.ProductName}");
+                ViewBag.ErrorMessage = String.Format($"You can not add more than {addedProduct.MaxQuantityAvailable} unit(s) of {addedProduct.ProductName}");
                 return View("Error");
-            }   
+            }
         }
 
         [HttpPost]
@@ -53,7 +53,7 @@ namespace ScaleModelsStore.Controllers
             {
                 Message = Server.HtmlEncode(productName) + " has been removed from your cart.",
                 CartTotal = cart.GetTotal(),
-                CartQuantity = cart.GetQuantity(),                
+                CartQuantity = cart.GetQuantity(),
                 DeleteId = id
             };
 
@@ -101,7 +101,7 @@ namespace ScaleModelsStore.Controllers
             {
                 results = new ShoppingCartChangeQuantityViewModel
                 {
-                    Message = Server.HtmlEncode(productName) + " is out of stock",                    
+                    Message = Server.HtmlEncode(productName) + " is out of stock",
                     ItemQuantity = itemQuantity,
                     ChangeId = id
                 };

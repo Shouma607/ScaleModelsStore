@@ -34,6 +34,7 @@ namespace ScaleModelsStore.Migrations
                         Description = c.String(maxLength: 300),
                         ImagePath = c.String(maxLength: 1024),
                         QuantityInStock = c.Int(nullable: false),
+                        MaxQuantityAvailable = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.ProductId)
                 .ForeignKey("dbo.Categories", t => t.CategoryId, cascadeDelete: true)
@@ -93,14 +94,14 @@ namespace ScaleModelsStore.Migrations
                         DeliveryTypeId = c.Int(nullable: false),
                         OrderOpenDate = c.DateTime(nullable: false),
                         OrderStatusId = c.Int(nullable: false),
-                        FirstName = c.String(nullable: false, maxLength: 100),
-                        LastName = c.String(nullable: false, maxLength: 100),
+                        FirstName = c.String(maxLength: 100),
+                        LastName = c.String(maxLength: 100),
                         PostalCode = c.String(maxLength: 10),
                         Country = c.String(maxLength: 50),
                         City = c.String(maxLength: 50),
                         Address = c.String(maxLength: 100),
-                        Phone = c.String(nullable: false, maxLength: 30),
-                        Email = c.String(nullable: false),
+                        Phone = c.String(maxLength: 30),
+                        Email = c.String(),
                     })
                 .PrimaryKey(t => t.OrderId)
                 .ForeignKey("dbo.DeliveryTypesDictionaries", t => t.DeliveryTypeId, cascadeDelete: true)

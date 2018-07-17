@@ -6,15 +6,15 @@ using System.Web;
 namespace ScaleModelsStore.Models
 {
     public partial class ProductMaxQuantityCheck
-    {       
+    {
 
         public static List<Product> CheckMaxQuantity(ShoppingCart cart, Order order)
         {
             ScaleModelsStoreEntities storeDb = new ScaleModelsStoreEntities();
 
-            List<Product> RestrictedProducts=new List<Product>();            
+            List<Product> RestrictedProducts = new List<Product>();
             var carts = cart.GetCartItems();
-            if(carts.Count!=0)
+            if (carts.Count != 0)
             {
                 var orders = storeDb.Orders.Where(o => o.PostalCode.Trim() == order.PostalCode.Trim()
                                                 && o.Country.Trim() == order.Country.Trim()
@@ -32,13 +32,13 @@ namespace ScaleModelsStore.Models
                         if (productInOrder != null)
                             sum = sum + productInOrder.Quantity;
                     }
-                    if (sum > 3)
+                    if (sum > product.MaxQuantityAvailable)
                     {
                         RestrictedProducts.Add(product);
                     }
                 }
             }
-            
+
             return RestrictedProducts;
         }
 

@@ -17,10 +17,10 @@ namespace ScaleModelsStore.Models
 
         [DisplayName("Manufacturer")]
         public int ManufacturerId { get; set; }
-        
+
         [StringLength(150)]
         public string ProductName { get; set; }
-        
+
         [StringLength(5)]
         public string Scale { get; set; }
 
@@ -35,8 +35,10 @@ namespace ScaleModelsStore.Models
         [DisplayName("Product photo URL")]
         [StringLength(1024)]
         public string ImagePath { get; set; }
-                      
+
         public int QuantityInStock { get; set; }
+
+        public int MaxQuantityAvailable { get; set; }
 
         public virtual Category Category { get; set; }
         public virtual Manufacturer Manufacturer { get; set; }

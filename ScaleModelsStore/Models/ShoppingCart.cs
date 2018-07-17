@@ -15,7 +15,7 @@ namespace ScaleModelsStore.Models
         public static ShoppingCart GetCart(HttpContextBase ctx)
         {
             var cart = new ShoppingCart();
-            cart.ShoppingCartId = cart.GetCartId(ctx);           
+            cart.ShoppingCartId = cart.GetCartId(ctx);
             return cart;
         }
 
@@ -27,19 +27,19 @@ namespace ScaleModelsStore.Models
 
             bool isAdded = false;
 
-            if(item==null)
+            if (item == null)
             {
                 item = new Cart
                 {
                     ProductId = product.ProductId,
                     CartId = ShoppingCartId,
                     Quantity = 1
-                };                
+                };
                 storeDb.Carts.Add(item);
-                productDb.QuantityInStock--; 
+                productDb.QuantityInStock--;
                 isAdded = true;
             }
-            else if(item.Quantity<3)
+            else if (item.Quantity < product.MaxQuantityAvailable)
             {
                 item.Quantity++;
                 productDb.QuantityInStock--; //not correct
@@ -47,7 +47,7 @@ namespace ScaleModelsStore.Models
 
             }
             else
-            {                
+            {
                 isAdded = false;
             }
 
@@ -65,14 +65,14 @@ namespace ScaleModelsStore.Models
                 storeDb.Carts.Remove(item);
                 product.QuantityInStock = product.QuantityInStock + item.Quantity;
                 storeDb.SaveChanges();
-            }                                   
+            }
         }
 
         private void RemoveCart()
         {
             var items = storeDb.Carts.Where(c => c.CartId == ShoppingCartId);
 
-            foreach(var item in items)
+            foreach (var item in items)
             {
                 storeDb.Carts.Remove(item);
             }
@@ -84,7 +84,7 @@ namespace ScaleModelsStore.Models
         {
             var item = storeDb.Carts.Single(c => c.ProductId == id);
             var product = storeDb.Products.Single(p => p.ProductId == id);
-            if(item!=null)
+            if (item != null)
             {
                 product.QuantityInStock = product.QuantityInStock + item.Quantity;
                 storeDb.Carts.Remove(item);
@@ -96,14 +96,14 @@ namespace ScaleModelsStore.Models
         {
             var item = storeDb.Carts.Single(c => c.CartId == ShoppingCartId && c.RecordId == id);
             var product = storeDb.Products.Single(p => p.ProductId == item.ProductId);
-            int changeQuantity=1;
+            int changeQuantity = 1;
 
-            if(item!=null)
+            if (item != null)
             {
                 item.Quantity--;
                 product.QuantityInStock++;
                 changeQuantity = item.Quantity;
-                storeDb.SaveChanges();                           
+                storeDb.SaveChanges();
             }
 
             return changeQuantity;
@@ -113,11 +113,11 @@ namespace ScaleModelsStore.Models
         {
             var item = storeDb.Carts.Single(c => c.CartId == ShoppingCartId && c.RecordId == id);
             var product = storeDb.Products.Single(p => p.ProductId == item.ProductId);
-            int changeQuantity = 3; //TODO: Add to Product Entity MaxQuantity property!
+            int changeQuantity = product.MaxQuantityAvailable; //TODO: Add to Product Entity MaxQuantity property!
 
-            if(item!=null&&product.QuantityInStock>0)
+            if (item != null && product.QuantityInStock > 0)
             {
-                item.Quantity++;                
+                item.Quantity++;
                 product.QuantityInStock--; //not correct
                 changeQuantity = item.Quantity;
                 storeDb.SaveChanges();
@@ -134,7 +134,7 @@ namespace ScaleModelsStore.Models
         {
             var items = GetCartItems();
 
-            foreach(var item in items)
+            foreach (var item in items)
             {
                 var orderToProduct = new OrderToProduct
                 {
@@ -181,9 +181,9 @@ namespace ScaleModelsStore.Models
 
         public string GetCartId(HttpContextBase ctx)
         {
-            if(ctx.Session[CartSessionKey]==null)
+            if (ctx.Session[CartSessionKey] == null)
             {
-                if(!string.IsNullOrWhiteSpace(ctx.User.Identity.Name))
+                if (!string.IsNullOrWhiteSpace(ctx.User.Identity.Name))
                 {
                     ctx.Session[CartSessionKey] = ctx.User.Identity.Name;
                 }
@@ -191,7 +191,7 @@ namespace ScaleModelsStore.Models
                 {
                     Guid tmpCartId = new Guid();   //For debug mode
                     //Guid tmpCartId = Guid.NewGuid(); //Run without debugging
-                    ctx.Session[CartSessionKey] = tmpCartId.ToString();                    
+                    ctx.Session[CartSessionKey] = tmpCartId.ToString();
                 }
             }
 

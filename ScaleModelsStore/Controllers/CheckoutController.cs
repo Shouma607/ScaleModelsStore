@@ -69,7 +69,7 @@ namespace ScaleModelsStore.Controllers
             }
             else
             {
-                ViewBag.ErrorMessage = "We're sorry, we.ve hit an unexpected error.";
+                ViewBag.ErrorMessage = "We're sorry, we've hit an unexpected error.";
                 return View("Error");
             }
         }

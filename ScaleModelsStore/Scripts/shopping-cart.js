@@ -27,7 +27,7 @@
                     $('#cart-total').text(data.CartTotal);
                     $('#update-msg').text(data.Message);
                     $('#cart-status').text('Cart (' + data.CartQuantity + ')');
-                    $("a[class='RemoveUnitLink'][data-id="+recordToDelete+"]").attr("qntt", parseInt(checkQuantity) - 1);
+                    $("a[class='RemoveUnitLink'][data-id=" + recordToDelete + "]").attr("qntt", parseInt(checkQuantity) - 1);
                     $("a[class='AddUnitLink'][data-id=" + recordToDelete + "]").attr("qntt", parseInt(checkQuantity) - 1);
                 });
         }
@@ -37,7 +37,7 @@
         var checkQuantity = $(this).attr("qntt");
         var maxItemsQuantity = $(this).attr("max-qntt");
         if (parseInt(checkQuantity) === parseInt(maxItemsQuantity)) {
-            $('#update-msg').text('You can not add more than ' + maxItemsQuantity + ' units of this item');
+            $('#update-msg').text('You can not add more than ' + maxItemsQuantity + ' unit(s) of this item');
             return;
         }
         if (recordToAdd !== '' && parseInt(checkQuantity) !== parseInt(maxItemsQuantity)) {
@@ -48,7 +48,7 @@
                         $('#cart-total').text(data.CartTotal);
                         $('#update-msg').text(data.Message);
                         $('#cart-status').text('Cart (' + data.CartQuantity + ')');
-                        $("a[class='AddUnitLink'][data-id="+recordToAdd+"]").attr("qntt", parseInt(checkQuantity) + 1);
+                        $("a[class='AddUnitLink'][data-id=" + recordToAdd + "]").attr("qntt", parseInt(checkQuantity) + 1);
                         $("a[class='RemoveUnitLink'][data-id=" + recordToAdd + "]").attr("qntt", parseInt(checkQuantity) + 1);
                     } else {
                         $('#update-msg').text('Item is out of stock');
