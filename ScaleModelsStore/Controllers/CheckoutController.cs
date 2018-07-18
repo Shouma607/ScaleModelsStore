@@ -1,4 +1,5 @@
-﻿using ScaleModelsStore.Models;
+﻿using Microsoft.AspNet.Identity;
+using ScaleModelsStore.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,6 +23,7 @@ namespace ScaleModelsStore.Controllers
 
             var list = new SelectList(Utils.CountriesList(),"Key","Value");
             var sortList = list.OrderBy(p => p.Text).ToList();
+            
             ViewBag.Countries = sortList;
             ViewBag.DeliveryTypeId = new SelectList(storeDb.DeliveryTypes, "DeliveryTypeId", "DeliveryTypeDrescription");
             return View();
@@ -35,6 +37,8 @@ namespace ScaleModelsStore.Controllers
                 var cart = ShoppingCart.GetCart(this.HttpContext);
                 order.OrderOpenDate = DateTime.Now;
                 order.OrderStatusId = 1;
+                if (!String.IsNullOrWhiteSpace(User.Identity.Name))
+                    order.CustomerId = User.Identity.GetUserId();                
                 List<Product> results=ProductMaxQuantityCheck.CheckMaxQuantity(cart, order);
                 if(results.Count>0)
                 {        

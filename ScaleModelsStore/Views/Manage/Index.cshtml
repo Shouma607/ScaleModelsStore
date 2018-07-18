@@ -1,0 +1,41 @@
+﻿@model ScaleModelsStore.ViewModels.UserInfoViewModel
+@{
+    ViewBag.Title = "Account parameters";
+}
+<script type="text/javascript" src="~/Scripts/account-menu.js"></script>
+
+
+<h2>@ViewBag.Title</h2>
+<p class="text-success">@ViewBag.StatusMessage</p>
+<div>
+    @Html.Partial("AccountMenu")
+    <h4>User info</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>First name:</dt>
+        <dd>@Model.FirstName</dd>
+        <dt>Last name:</dt>
+        <dd>@Model.LastName</dd>
+        <dt>E-mail address:</dt>
+        <dd>@Model.Email</dd>
+        <dt>E-mail status:</dt>
+        @if(Model.EmailStatus=="Not confirmed")
+        {
+            <dd style="color:red">@Model.EmailStatus</dd>
+        }
+        else
+        {
+            <dd style="color:green">@Model.EmailStatus</dd>
+        }
+        <dt>Phone number:</dt>
+        <dd>@Model.PhoneNumber</dd>
+        <dt>Postal code:</dt>
+        <dd>@Model.PostalCode</dd>
+        <dt>Country:</dt>
+        <dd>@Model.Country</dd>
+        <dt>City:</dt>
+        <dd>@Model.City</dd>
+        <dt>Address:</dt>
+        <dd>@Model.Address</dd>
+    </dl>
+</div>

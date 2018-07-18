@@ -23,22 +23,6 @@ textarea {
     max-width: 280px;
 }
 
-.sms-button{
-    text-decoration:none;
-    display:inline-block;
-    cursor:pointer;
-    padding:10px;
-    border-color: black;
-    border-width:1px;
-    background-color:#838383;
-    color:black;
-    border-radius: 5px;     
-    user-select:none;    
-}
-.sms-button:hover{
-    background-color:black;
-    color:silver;
-}
 .disabled{
     background-color:darkgray;
     color:white;
@@ -57,3 +41,160 @@ textarea {
     padding-left:50px;
     padding-right:30px;
 }
+
+.nav-account {
+    overflow: hidden;
+    background-color: #838383;
+    font-family: Arial, Arial, Helvetica, sans-serif, sans-serif;
+}
+
+.nav-account a{
+    float:left;
+    font-size:14px;
+    color:black;
+    text-align:center;
+    padding:14px 16px;
+    text-decoration:none;
+}
+
+.dropdown-acc{
+    float:left;
+    overflow:hidden;
+}
+
+.dropdown-acc .dropbtn {
+    cursor:pointer;
+    font-size:14px;
+    border:none;
+    outline:none;
+    color:black;
+    padding: 14px 16px;
+    background-color:inherit;
+    font-family:inherit;
+    margin:0;
+}
+
+.nav-account a:hover, .dropdown-acc:hover .dropbtn{
+    background-color:#333;
+    color:silver;
+}
+
+.dropdown-content{
+    display:none;
+    position:absolute;
+    background-color:#f9f9f9;
+    min-width:160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index:1;
+}
+
+.dropdown-content a{
+    float:none;
+    color:black;
+    padding:12px 16px;
+    text-decoration:none;
+    display:block;
+    text-align:left;
+}
+
+.dropdown-content a:hover{
+    background-color:#333;
+}
+
+.show{
+    display:block;
+}
+
+/*Buttons*/
+.submit-search-button {
+    /*border-color: #999999;
+    border-width: 1px;*/
+    border:none;
+    text-decoration: none;
+    display: inline-block;
+    cursor: pointer;
+    color: #999999;
+    background-color: transparent;
+}
+
+.sms-button {
+    text-decoration: none;
+    display: inline-block;
+    cursor: pointer;
+    padding: 10px;
+    border-color: black;
+    border-width: 1px;
+    background-color: #838383;
+    color: black;
+    border-radius: 5px;
+    user-select: none;
+}
+
+    .sms-button:hover {
+        background-color: black;
+        color: silver;
+    }
+
+/* Tables */
+.table-container {
+    padding-bottom: 10px;
+}
+.hover-table  {
+    border: 1px solid #000;
+    border-collapse: collapse;
+    color: black;
+    min-width: 250px;
+    width: 100%;
+}
+
+.hover-table tr {
+    border: 1px solid #000;
+    line-height: 25px;
+}
+
+.hover-table th {
+    background-color: #333;
+    color: silver;
+    font-size: 13px;
+    text-align: left;
+}
+
+.hover-table th, td {
+    padding-left: 5px;
+}
+
+.hover-table tr:hover {
+    background-color: silver;
+}
+
+.cart-table{
+    border: 1px solid #000;
+    border-collapse: collapse;
+    color: black;
+    min-width: 250px;
+    width: 70%;
+}
+.cart-table tr {    
+    line-height: 25px;
+}
+
+.cart-table th {    
+    background-color: #333;
+    color: silver;
+    font-size: 13px;    
+}
+
+.cart-table th, td {
+    border-bottom:1px solid #000;
+    padding-left: 5px;
+    text-align: left;
+}
+
+tr .add-unit, tr .remove-unit, tr .cancel-link{
+    text-align: center;    
+}
+tr .add-unit{
+    border:none;
+}
+
+

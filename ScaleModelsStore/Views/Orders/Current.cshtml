@@ -1,0 +1,34 @@
+﻿@model IEnumerable<ScaleModelsStore.ViewModels.OrdersViewModel>
+@{
+    ViewBag.Title = "Current orders";
+}
+<script type="text/javascript" src="~/Scripts/account-menu.js"></script>
+
+
+<h2>@ViewBag.Title</h2>
+
+<div>
+    @{Html.RenderAction("AccountMenu", "Manage");}
+    <h4>View the details of your order by clicking on its row</h4>
+    <hr />
+    <table class="hover-table">
+        <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>Total price</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var item in Model)
+            {
+                <tr onclick="location.href='@Url.Action("Details","Orders",new { id = item.Order.OrderId })'">
+                    <td>@item.Order.OrderId</td>
+                    <td>@item.Price</td>
+                    <td>@item.Order.OrderStatuses.StatusDescription</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>

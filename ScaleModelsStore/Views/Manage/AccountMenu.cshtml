@@ -1,0 +1,23 @@
+﻿<div class="nav-account">
+    @Html.ActionLink("Information", "Index")
+    <div class="dropdown-acc">
+        <button class="dropbtn set" id="settingsBtn" onclick="DropdownSettings()">
+            Settings <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-content" id="settingsDropdown">
+            @Html.ActionLink("Change password", "ChangePassword")
+            @Html.ActionLink("Change e-mail", "ChangeEmail")
+            @Html.ActionLink("Change phone number", "ChangePhone")
+            @Html.ActionLink("Change address", "ChangeAddress")
+        </div>
+    </div>
+    <div class="dropdown-acc">
+        <button class="dropbtn ord" id="ordersBtn" onclick="DropdownOrders()">
+            Orders <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-content" id="ordersDropdown">
+            @Html.ActionLink("Current", "Current", "Orders")
+            @Html.ActionLink("History", "History", "Orders")
+        </div>
+    </div>
+</div>

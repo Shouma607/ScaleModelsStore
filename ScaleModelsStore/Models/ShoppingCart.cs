@@ -179,6 +179,16 @@ namespace ScaleModelsStore.Models
             return total ?? decimal.Zero;
         }
 
+        public void MigarteCart(string UserName)
+        {
+            var shoppingCart = storeDb.Carts.Where(c => c.CartId == ShoppingCartId);
+            foreach(var item in shoppingCart)
+            {
+                item.CartId = UserName;
+            }
+            storeDb.SaveChanges();
+        }
+
         public string GetCartId(HttpContextBase ctx)
         {
             if (ctx.Session[CartSessionKey] == null)

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
@@ -8,9 +9,10 @@ namespace ScaleModelsStore.Models
 {
     [FluentValidation.Attributes.Validator(typeof(OrderModelValidator))]
     public class Order
-    {
+    {       
         public int OrderId { get; set; }
-        public int? CustomerId { get; set; }
+        [ForeignKey("User")]
+        public string CustomerId { get; set; }
         public int DeliveryTypeId { get; set; }
         public DateTime OrderOpenDate { get; set; }
         public int OrderStatusId { get; set; }
@@ -50,5 +52,6 @@ namespace ScaleModelsStore.Models
         public virtual DeliveryTypesDictionary DeliveryTypes { get; set; }
         public virtual OrderStatusesDictionary OrderStatuses { get; set; }
         public virtual List<OrderToProduct> OrderToProducts { get; set; }
+        public virtual User User { get; set; }
     }
 }

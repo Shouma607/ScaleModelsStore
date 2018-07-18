@@ -1,0 +1,62 @@
+﻿@model ScaleModelsStore.ViewModels.OrderDetailsViewModel
+@{
+    ViewBag.Title = "Orders history";
+}
+<script type="text/javascript" src="~/Scripts/account-menu.js"></script>
+
+
+<h2>@ViewBag.Title</h2>
+
+<div>
+    @{Html.RenderAction("AccountMenu", "Manage");}
+    <h4>View the details of your order by clicking on its row</h4>
+    <hr />
+    <div>
+        <dl class="dl-horizontal">
+            <dt>Order number:</dt>
+            <dd>@Model.Order.OrderId</dd>
+            <dt>Order open date:</dt>
+            <dd>@Model.Order.OrderOpenDate.ToString("dd/MM/yyyy").Replace('-','/')</dd>
+            <dt>Order status:</dt>
+            <dd>@Model.Order.OrderStatuses.StatusDescription</dd>
+            <dt>Delivery method:</dt>
+            <dd>@Model.Order.DeliveryTypes.DeliveryTypeDrescription</dd>
+            <dt>Phone number:</dt>
+            <dd>@Model.Order.Phone</dd>
+            @if(Model.Order.DeliveryTypeId>1)
+            {
+                <dt>Postal code:</dt>
+                <dd>@Model.Order.PostalCode</dd>
+                <dt>Country:</dt>
+                <dd>@Model.Order.Country</dd>
+                <dt>City:</dt>
+                <dd>@Model.Order.City</dd>
+                <dt>Address:</dt>
+                <dd>@Model.Order.Address</dd>
+            }
+
+        </dl>
+    </div>
+    <table class="hover-table">
+        <thead>
+            <tr>
+                <th>Product name</th>
+                <th>Unit price</th>
+                <th>Quantity</th>
+                <th>Total price</th>                
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Products)
+            {
+                <tr>
+                    <td>@item.ProductName</td>
+                    <td>@item.UnitPrice</td>  
+                    <td>@item.Quantity</td>
+                    <td>@item.Price</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>

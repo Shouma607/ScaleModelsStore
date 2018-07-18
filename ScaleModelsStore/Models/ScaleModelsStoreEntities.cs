@@ -4,12 +4,19 @@ namespace ScaleModelsStore.Models
     using System.Data.Entity;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Linq;
+    using Microsoft.AspNet.Identity.EntityFramework;
+    using static ScaleModelsStore.Models.User;
 
-    public partial class ScaleModelsStoreEntities : DbContext
+    public partial class ScaleModelsStoreEntities : IdentityDbContext<User>
     {
         public ScaleModelsStoreEntities()
-            : base("name=ScaleModelsStoreEntities")
+            : base("ScaleModelsStoreEntities", throwIfV1Schema:false)
         {
+        }
+
+        public static ScaleModelsStoreEntities Create()
+        {
+            return new ScaleModelsStoreEntities();
         }
 
         public virtual DbSet<Category> Categories { get; set; }
@@ -20,9 +27,11 @@ namespace ScaleModelsStore.Models
         public virtual DbSet<OrderToProduct> OrderToProducts { get; set; }
         public virtual DbSet<DeliveryTypesDictionary> DeliveryTypes { get; set; }
         public virtual DbSet<OrderStatusesDictionary> OrderStatuses { get; set; }
-        
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            modelBuilder.Configurations.Add(new IdentityLoginConfig());
+            modelBuilder.Configurations.Add(new IdentityRoleConfig());
         }
     }
 }

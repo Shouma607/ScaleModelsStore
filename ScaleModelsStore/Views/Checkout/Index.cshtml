@@ -17,7 +17,7 @@
                 @Html.LabelFor(model => model.FirstName, "First name")
             </div>
             <div class="order-field">
-                @Html.EditorFor(model => model.FirstName)
+                @Html.TextBoxFor(model => model.FirstName, new { @Value = User.Identity.GetFirstName() } )
                 @Html.ValidationMessageFor(model => model.FirstName)
             </div>
         </div>
@@ -26,7 +26,7 @@
                 @Html.LabelFor(model => model.LastName, "Last name")
             </div>
             <div class="order-field">
-                @Html.EditorFor(model => model.LastName)
+                @Html.TextBoxFor(model => model.LastName, new { @Value = User.Identity.GetLastName() } )
                 @Html.ValidationMessageFor(model => model.LastName)
             </div>
         </div>
@@ -44,28 +44,28 @@
                 @Html.LabelFor(model => model.PostalCode, "Postal code")
             </div>
             <div class="order-field">
-                @Html.EditorFor(model => model.PostalCode)
+                @Html.TextBoxFor(model => model.PostalCode, new { @Value = User.Identity.GetPostalCode() })
                 @Html.ValidationMessageFor(model=>model.PostalCode)
             </div>
             <div class="order-label">
                 @Html.LabelFor(model=>model.Country,"Country")                
             </div>
             <div class="order-field">
-                @Html.DropDownListFor(model => model.Country, new SelectList(ViewBag.Countries, "Text", "Text"), "Select country")
+                @Html.DropDownListFor(model => model.Country, new SelectList(ViewBag.Countries, "Text", "Text",User.Identity.GetCountry()), "Select country")
                 @Html.ValidationMessageFor(model => model.Country)
             </div>
             <div class="order-label">
                 @Html.LabelFor(model => model.City, "City")
             </div>
             <div class="order-field">
-                @Html.EditorFor(model => model.City)
+                @Html.TextBoxFor(model => model.City, new { @Value = User.Identity.GetCity() })
                 @Html.ValidationMessageFor(model=>model.City)
             </div>
             <div class="order-label">
                 @Html.LabelFor(model => model.Address, "Address")
             </div>
             <div class="order-field">
-                @Html.TextAreaFor(model => model.Address)
+                @Html.TextArea("Address", User.Identity.GetAddress())
                 @Html.ValidationMessageFor(model=>model.Address)
                 
             </div>
@@ -75,7 +75,7 @@
                 @Html.LabelFor(model => model.Phone, "Phone number")
             </div>
             <div class="order-field">
-                @Html.EditorFor(model => model.Phone)
+                @Html.TextBoxFor(model => model.Phone, new { @Value = User.Identity.GetPhoneNumber() })
                 @Html.ValidationMessageFor(model => model.Phone)
                 <p class="validation-rule">
                     examples: +99(999)999-99-99; 999-99-99 
@@ -87,7 +87,7 @@
                 @Html.LabelFor(model => model.Email, "E-mail address")
             </div>
             <div class="order-field">
-                @Html.EditorFor(model => model.Email)
+                @Html.TextBoxFor(model => model.Email, new { @Value = User.Identity.GetEmail() })
                 @Html.ValidationMessageFor(model => model.Email)
             </div>
         </div>

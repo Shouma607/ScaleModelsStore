@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - My ASP.NET Application</title>
     @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/font-awesome.css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
@@ -19,16 +20,17 @@
                 @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
 
             </div>
-            <div class="search">
-                @using (Html.BeginForm())
-                {
-                    <p>
-                        @Html.TextBox("SearchString")
-                        <input class="submit-button" type="submit" value="Search" formaction="@Url.Action("Search","Store")"/>
-                    </p>
-                }
-            </div>
+
             <div class="navbar-collapse collapse">
+                <div class="search">
+                    @using (Html.BeginForm())
+                    {
+                        <p>
+                            @Html.TextBox("SearchString")
+                            <input class="submit-search-button" type="submit" value="Search" formaction="@Url.Action("Search","Store")" />
+                        </p>
+                    }
+                </div>
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
                     <li>@Html.ActionLink("Store", "Index", "Store")</li>
@@ -36,10 +38,13 @@
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                 </ul>
+                @Html.Partial("LoginPartial")
             </div>
         </div>
     </div>
-    @{ Html.RenderAction("CategoryMenu", "Store");}
+    <div>
+        @{ Html.RenderAction("CategoryMenu", "Store");}
+    </div>
     <div class="container body-content">
         @RenderBody()
         <hr />

@@ -8,11 +8,13 @@ using System.Web;
 namespace ScaleModelsStore.Models
 {
     public class OrderToProduct
-    {   
+    {
         [Key, Column(Order = 0)]
         public int OrderId { get; set; }
         [Key, Column(Order = 1)]
         public int ProductId { get; set; }
-        public int Quantity { get; set; }        
+        public int Quantity { get; set; }
+
+        public virtual Product Product { get; set; }
     }
 }

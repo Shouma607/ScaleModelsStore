@@ -9,19 +9,20 @@
 
     <div id="update-msg">
     </div>
-    <table>
-        <thead>
-            <tr>
-                <th>Product Name</th>
-                <th>Unit Price</th>
-                <th>Quantity</th>
-                <th></th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model.CartItems)
-            {
+    <div class="table-container">
+        <table class="cart-table">
+            <thead>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Unit Price</th>
+                    <th>Quantity</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.CartItems)
+                {
                 <tr id="row-1-@item.RecordId">
                     <td rowspan="2" align="center">
                         @Html.ActionLink(item.Product.ProductName, "Product", "Store", new { id = item.ProductId }, null)
@@ -32,29 +33,29 @@
                     <td rowspan="2" align="center" id="item-qntt-@item.RecordId" data-id="@item.Quantity">
                         @item.Quantity
                     </td>
-                    <td align="center">
+                    <td align="center" class="add-unit">
                         <a href="#" class="AddUnitLink" qntt="@item.Quantity" data-id="@item.RecordId" max-qntt="@item.Product.MaxQuantityAvailable">[+]</a>
                     </td>
-                    <td rowspan="2" align="center">
+                    <td rowspan="2" align="center" class="cancel-link">
                         <a href="#" class="CancelLink" data-id="@item.RecordId">Cancel</a>
                     </td>
                 </tr>
                 <tr id="row-2-@item.RecordId">
-                    <td align="center">
-                        <a href="#" class="RemoveUnitLink" qntt="@item.Quantity" data-id="@item.RecordId">[-]</a>
+                    <td align="center" class="remove-unit">
+                        <a href="#" class="RemoveUnitLink"  qntt="@item.Quantity" data-id="@item.RecordId">[-]</a>
                     </td>
                 </tr>
-            }
-            <tr>
-                <td>Total</td>
-                <td></td>
-                <td></td>
-                <td id="cart-total">
-                    @Model.CartTotal
-                </td>
-            </tr>
-        </tbody>
-    </table>
+                }
+                <tr>
+                    <td>Total</td>
+                    <td></td>
+                    <td id="cart-total">@Model.CartTotal</td>
+                    <td></td>                
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
     <div class="Checkout">
         <p>
             <button class="sms-button" id="checkout" onclick="location.href='@Url.Action("Index","Checkout")'">Checkout</button>
