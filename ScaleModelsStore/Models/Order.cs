@@ -18,35 +18,29 @@ namespace ScaleModelsStore.Models
         public int OrderStatusId { get; set; }
 
         //Unregistered customer
-        //[Required(ErrorMessage = "First name is required")]
-        [StringLength(100)]
+
+        [StringLength(100, ErrorMessage = "Length must be less than 100 characters")]
         public string FirstName { get; set; }
-        //[Required(ErrorMessage = "Last name is required")]
-        [StringLength(100)]
+
+        [StringLength(100, ErrorMessage = "Length must be less than 100 characters")]
         public string LastName { get; set; }
 
-        //TODO: Try to use "Fluent validator"!
-        [StringLength(10)]
+        [StringLength(10, ErrorMessage = "Length must be less than 10 characters")]
         public string PostalCode { get; set; }
 
-        [StringLength(50)]
+        [StringLength(50, ErrorMessage = "Length must be less than 50 characters")]
         public string Country { get; set; }
 
-        [StringLength(50)]
+        [StringLength(50, ErrorMessage = "Length must be less than 50 characters")]
         public string City { get; set; }
 
-        [StringLength(100)]
+        [StringLength(100, ErrorMessage = "Length must be less than 100 characters")]
         public string Address { get; set; }
 
-        [StringLength(30)]
-        //[Required(ErrorMessage = "Phone number is required")]        
-        //[RegularExpression(@"(\+\d{1,2}\s?)?(\(?\d{3}\)?)?[\s]?\d{3}[\s.-]?\d{2}[\s.-]?\d{2}",
-        //    ErrorMessage = "Phone number is not valid")]
+        [StringLength(30, ErrorMessage = "Length must be less than 30 characters")]
         public string Phone { get; set; }
-        //[Required(ErrorMessage = "E-mail address is required")]
+
         [DataType(DataType.EmailAddress)]
-        //[RegularExpression(@"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}",
-        //   ErrorMessage = "Email is is not valid.")]
         public string Email { get; set; }
 
         public virtual DeliveryTypesDictionary DeliveryTypes { get; set; }

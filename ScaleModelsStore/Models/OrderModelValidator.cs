@@ -17,7 +17,7 @@ namespace ScaleModelsStore.Models
                 .Matches(@"(\+\d{1,2}\s?)?(\(?\d{3}\)?)?[\s]?\d{3}[\s.-]?\d{2}[\s.-]?\d{2}")
                 .WithMessage("Phone number is not valid");
             RuleFor(o => o.Email).NotEmpty().WithMessage("E-mail address is required");
-            RuleFor(o => o.Email).EmailAddress().WithMessage("Email is is not valid");
+            RuleFor(o => o.Email).EmailAddress().WithMessage("E-mail address is is not valid");
 
             RuleFor(o => o.PostalCode).NotEmpty().When(o => o.DeliveryTypeId != 1)
                                       .WithMessage("Postal code is required");

@@ -28,20 +28,18 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <div>
-                        <div class="col-md-10">
-                            @Html.CheckBoxFor(model => model.RememberMe)
-                            @Html.LabelFor(model => model.RememberMe)
-                        </div>
+                    <div class="custom-control custom-checkbox">
+                        @Html.CheckBoxFor(model => model.RememberMe, new { @class = "custom-control-input" })
+                        @Html.LabelFor(model => model.RememberMe, new { @class = "custom-control-label" })
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Log in" class="sms-button" />
+                        <input type="submit" value="Log in" class="btn btn-outline-primary" />
                     </div>
                 </div>
                 <p>
-                    @Html.ActionLink("Register as a new user", "Register")
+                    @Html.ActionLink("Register as a new user", "Register",null,new{ @class="card-link"})
                 </p>
             }
         </section>

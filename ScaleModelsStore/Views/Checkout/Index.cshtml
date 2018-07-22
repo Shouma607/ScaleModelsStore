@@ -3,96 +3,97 @@
 @{
     ViewBag.Title = "Checkout";
 }
-<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
-<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+<script src="~/Scripts/jquery.validate.min.js" type="text/javascript"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js" type="text/javascript"></script>
 <script src="~/Scripts/jquery-1.10.2.min.js" type="text/javascript"></script>
 <script src="~/Scripts/order-form.js" type="text/javascript"></script>
-@using (Html.BeginForm())
+<script src="~/Scripts/account-address-to-controls.js" type="text/javascript"></script>
+@using (Html.BeginForm("Index", "Checkout", FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "OrderCheckout" }))
 {
-    @Html.ValidationSummary(true)
-    <fieldset>
-        <legend>Order Information</legend>
-        <div>
-            <div class="order-label">
-                @Html.LabelFor(model => model.FirstName, "First name")
+    @Html.AntiForgeryToken()
+    <h4>Order information</h4>
+    <hr />
+    @Html.ValidationSummary("", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(model => model.FirstName, "First name", new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(model => model.FirstName, new { @Value = User.Identity.GetFirstName(), @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.LastName, "Last name", new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(model => model.LastName, new { @Value = User.Identity.GetLastName(), @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.DeliveryTypeId, "Delivery Type", new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(model => model.DeliveryTypeId, ViewBag.DeliveryTypeId as SelectList, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.DeliveryTypeId, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div id="DeliveryDependsBlock">
+        @if (User.Identity.IsAuthenticated)
+        {
+            <div class="form-group">
+                @Html.Label("Address option", new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.DropDownList("Addresses", new SelectList(ViewBag.Addresses, "Text", "Text"), new { @class = "form-control" })
+                </div>
             </div>
-            <div class="order-field">
-                @Html.TextBoxFor(model => model.FirstName, new { @Value = User.Identity.GetFirstName() } )
-                @Html.ValidationMessageFor(model => model.FirstName)
+        }
+        <div class="form-group">
+            @Html.LabelFor(model => model.PostalCode, "Postal code", new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.PostalCode, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.PostalCode, "", new { @class = "text-danger" })
             </div>
         </div>
-        <div>
-            <div class="order-label">
-                @Html.LabelFor(model => model.LastName, "Last name")
-            </div>
-            <div class="order-field">
-                @Html.TextBoxFor(model => model.LastName, new { @Value = User.Identity.GetLastName() } )
-                @Html.ValidationMessageFor(model => model.LastName)
+        <div class="form-group">
+            @Html.LabelFor(model => model.Country, "Country", new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.Country, new SelectList(ViewBag.Countries, "Text", "Text"), "Select country", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Country, "", new { @class = "text-danger" })
             </div>
         </div>
-        <div>
-            <div class="order-label">
-                @Html.LabelFor(model => model.DeliveryTypeId, "Delivery Type")
-            </div>
-            <div class="order-field">
-                @Html.DropDownListFor(model=>model.DeliveryTypeId,ViewBag.DeliveryTypeId as SelectList)
-                @Html.ValidationMessageFor(model => model.DeliveryTypeId)
+        <div class="form-group">
+            @Html.LabelFor(model => model.City, "City", new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.City, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
             </div>
         </div>
-        <div id="DeliveryDependsBlock">
-            <div class="order-label">
-                @Html.LabelFor(model => model.PostalCode, "Postal code")
-            </div>
-            <div class="order-field">
-                @Html.TextBoxFor(model => model.PostalCode, new { @Value = User.Identity.GetPostalCode() })
-                @Html.ValidationMessageFor(model=>model.PostalCode)
-            </div>
-            <div class="order-label">
-                @Html.LabelFor(model=>model.Country,"Country")                
-            </div>
-            <div class="order-field">
-                @Html.DropDownListFor(model => model.Country, new SelectList(ViewBag.Countries, "Text", "Text",User.Identity.GetCountry()), "Select country")
-                @Html.ValidationMessageFor(model => model.Country)
-            </div>
-            <div class="order-label">
-                @Html.LabelFor(model => model.City, "City")
-            </div>
-            <div class="order-field">
-                @Html.TextBoxFor(model => model.City, new { @Value = User.Identity.GetCity() })
-                @Html.ValidationMessageFor(model=>model.City)
-            </div>
-            <div class="order-label">
-                @Html.LabelFor(model => model.Address, "Address")
-            </div>
-            <div class="order-field">
-                @Html.TextArea("Address", User.Identity.GetAddress())
-                @Html.ValidationMessageFor(model=>model.Address)
-                
+        <div class="form-group">
+            @Html.LabelFor(model => model.Address, "Address", new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.Address, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
             </div>
         </div>
-        <div>
-            <div class="order-label">
-                @Html.LabelFor(model => model.Phone, "Phone number")
-            </div>
-            <div class="order-field">
-                @Html.TextBoxFor(model => model.Phone, new { @Value = User.Identity.GetPhoneNumber() })
-                @Html.ValidationMessageFor(model => model.Phone)
-                <p class="validation-rule">
-                    examples: +99(999)999-99-99; 999-99-99 
-                </p>
-            </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Phone, "Phone number", new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(model => model.Phone, new { @Value = User.Identity.GetPhoneNumber(), @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger"})
+            <small id="inputHelp" class="form-text text-muted">
+                examples: +99(999)999-99-99; 999-99-99
+            </small>
         </div>
-        <div>
-            <div class="order-label">
-                @Html.LabelFor(model => model.Email, "E-mail address")
-            </div>
-            <div class="order-field">
-                @Html.TextBoxFor(model => model.Email, new { @Value = User.Identity.GetEmail() })
-                @Html.ValidationMessageFor(model => model.Email)
-            </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Email, "E-mail address", new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(model => model.Email, new { @Value = User.Identity.GetEmail(), @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
         </div>
-        <div class="order-button">
-            <input class="submit-button" type="submit" value="Create Order" />
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input class="btn btn-outline-primary" type="submit" value="Create Order" />
         </div>
-    </fieldset>
+    </div>
 }

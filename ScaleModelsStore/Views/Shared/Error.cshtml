@@ -7,12 +7,12 @@
 <body>
     <hgroup>
         <h1>Error has been occured.</h1>
-        <h3>@ViewBag.ErrorMessage</h3>
+        <h3 class="error-msg">@ViewBag.ErrorMessage</h3>
         @if (ViewData["RestrictedProducts"] != null)
         {
             foreach (var item in ViewData["RestrictedProducts"] as List<ScaleModelsStore.Models.Product>)
             {
-                <h3>
+                <h3 class="error-msg">
                     You can not buy more than @item.MaxQuantityAvailable unit(s) of @item.ProductName.
                     This product was deleted from your cart!
                 </h3>

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNet.Identity;
 using ScaleModelsStore.Models;
+using ScaleModelsStore.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,11 @@ namespace ScaleModelsStore.Controllers
         // GET: Checkout
         public ActionResult Index()
         {
+
+            string userId = User.Identity.GetUserId();
+            var addressList = storeDb.Addresses.Where(a => a.UserId == userId).ToList();
+            ViewBag.Addresses = new SelectList(Utils.GetAddressDropDown(addressList), "Key", "Value");
+
             var cartList = ShoppingCart.GetCart(this.HttpContext).GetCartItems();
             if (cartList.Count==0)
             {
@@ -76,6 +82,39 @@ namespace ScaleModelsStore.Controllers
                 ViewBag.ErrorMessage = "We're sorry, we've hit an unexpected error.";
                 return View("Error");
             }
+        }
+
+        public ActionResult CheckStatus()
+        {
+            return View();
+        }
+         
+        [HttpPost]
+        public ActionResult CheckStatus(OrderStatusCheckViewModel model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+
+            ScaleModelsStoreEntities storeDb = new ScaleModelsStoreEntities();
+            var order = storeDb.Orders.SingleOrDefault(o => o.OrderId == model.OrderId&&o.Email==model.Email);
+            if(order==null)
+            {
+                ViewBag.ErrorMessage = "Incorrec order number and/or e-mail address";
+                return View("Error");
+            }
+            var viewModel = new OrderStatusCheckViewModel
+            {
+                Email=model.Email,
+                OrderId = model.OrderId,
+                OrderStatus = order.OrderStatuses.StatusDescription
+            };
+
+            return RedirectToAction("CheckResult","Checkout",viewModel);
+        }
+
+        public ActionResult CheckResult(OrderStatusCheckViewModel model)
+        {
+            return View(model);
         }
 
     }

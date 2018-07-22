@@ -1,0 +1,15 @@
+﻿@model ScaleModelsStore.ViewModels.OrderStatusCheckViewModel
+@{
+    ViewBag.Title = "Order status";
+}
+
+<div>
+    <h2>Order number: @Model.OrderId</h2>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>Order current status is:</dt>
+        <dd>@Model.OrderStatus</dd>
+    </dl>
+
+</div>
+

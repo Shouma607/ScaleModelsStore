@@ -7,7 +7,7 @@
 <div>
     <h3>Your cart</h3>
 
-    <div id="update-msg">
+    <div class="text-danger" id="update-msg">
     </div>
     <div class="table-container">
         <table class="cart-table">
@@ -25,7 +25,7 @@
                 {
                 <tr id="row-1-@item.RecordId">
                     <td rowspan="2" align="center">
-                        @Html.ActionLink(item.Product.ProductName, "Product", "Store", new { id = item.ProductId }, null)
+                        @Html.ActionLink(item.Product.ProductName, "Product", "Store", new { id = item.ProductId }, new { @class="card-link"})
                     </td>
                     <td rowspan="2" align="center">
                         @item.Product.Price
@@ -58,7 +58,7 @@
     </div>
     <div class="Checkout">
         <p>
-            <button class="sms-button" id="checkout" onclick="location.href='@Url.Action("Index","Checkout")'">Checkout</button>
+            <button class="btn btn-outline-primary" id="checkout" onclick="location.href='@Url.Action("Index","Checkout")'">Checkout</button>
         </p>
     </div>
 </div>

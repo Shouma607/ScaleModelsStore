@@ -8,12 +8,12 @@ namespace ScaleModelsStore.ViewModels
 {
     public class LogInViewModel
     {
-        [Required]
+        [Required(ErrorMessage ="E-mail address is required")]
         [Display(Name ="E-mail")]
         [EmailAddress]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Password is required")]
         [DataType(DataType.Password)]
         [Display(Name ="Password")]
         public string Password { get; set; }
@@ -24,17 +24,17 @@ namespace ScaleModelsStore.ViewModels
 
     public class RegisterViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "Last name is required")]
         [StringLength(100)]
         [Display(Name = "Last name")]
         public string LastName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "First name is required")]
         [StringLength(100)]
         [Display(Name = "First name")]
         public string FirstName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "E-mail address is required")]
         [EmailAddress]
         [Display(Name ="E-mail")]
         public string Email { get; set; }
@@ -45,7 +45,7 @@ namespace ScaleModelsStore.ViewModels
             ErrorMessage = "Phone number is not valid")]
         public string Phone { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Password is required")]
         [StringLength(100,ErrorMessage ="The {0} must be at least {2} characters long.", MinimumLength =6)]
         [DataType(DataType.Password)]
         [Display(Name ="Password")]

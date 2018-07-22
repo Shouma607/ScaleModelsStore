@@ -27,6 +27,7 @@ namespace ScaleModelsStore.Models
         public virtual DbSet<OrderToProduct> OrderToProducts { get; set; }
         public virtual DbSet<DeliveryTypesDictionary> DeliveryTypes { get; set; }
         public virtual DbSet<OrderStatusesDictionary> OrderStatuses { get; set; }
+        public virtual DbSet<Address> Addresses { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

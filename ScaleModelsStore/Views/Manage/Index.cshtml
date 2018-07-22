@@ -2,7 +2,9 @@
 @{
     ViewBag.Title = "Account parameters";
 }
+<script src="~/Scripts/jquery-1.10.2.min.js" type="text/javascript"></script>
 <script type="text/javascript" src="~/Scripts/account-menu.js"></script>
+<script type="text/javascript" src="~/Scripts/account-get-address.js"></script>
 
 
 <h2>@ViewBag.Title</h2>
@@ -29,13 +31,15 @@
         }
         <dt>Phone number:</dt>
         <dd>@Model.PhoneNumber</dd>
+        <dt>Address list:</dt>
+        <dd>@Html.DropDownList("Addresses", new SelectList(ViewBag.Addresses,"Text","Text"))</dd>
         <dt>Postal code:</dt>
-        <dd>@Model.PostalCode</dd>
+        <dd id="PostalCode">@Model.PostalCode</dd>
         <dt>Country:</dt>
-        <dd>@Model.Country</dd>
+        <dd id="Country">@Model.Country</dd>
         <dt>City:</dt>
-        <dd>@Model.City</dd>
+        <dd id="City">@Model.City</dd>
         <dt>Address:</dt>
-        <dd>@Model.Address</dd>
+        <dd id="Address">@Model.Address</dd>
     </dl>
 </div>

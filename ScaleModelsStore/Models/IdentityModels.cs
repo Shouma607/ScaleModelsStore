@@ -20,21 +20,7 @@ namespace ScaleModelsStore.Models
 
         [Required]
         [StringLength(100)]
-        public string FirstName { get; set; }
-
-        [StringLength(10)]
-        public string PostalCode { get; set; }
-
-        [StringLength(50)]
-        public string Country { get; set; }
-
-        [StringLength(50)]
-        public string City { get; set; }
-
-        [StringLength(100)]
-        public string Address { get; set; }
-
-
+        public string FirstName { get; set; }               
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<User> manager)
         {
@@ -43,11 +29,7 @@ namespace ScaleModelsStore.Models
             // Add custom user claims here
             userIdentity.AddClaim(new Claim("LastName", this.LastName));
             userIdentity.AddClaim(new Claim("FirstName", this.FirstName));
-            userIdentity.AddClaim(new Claim("Email", this.Email));
-            userIdentity.AddClaim(new Claim("PostalCode", String.IsNullOrEmpty(this.PostalCode)?"":this.PostalCode));
-            userIdentity.AddClaim(new Claim("Country", String.IsNullOrEmpty(this.Country) ? "" : this.Country));
-            userIdentity.AddClaim(new Claim("City", String.IsNullOrEmpty(this.City) ? "" : this.City));
-            userIdentity.AddClaim(new Claim("Address", String.IsNullOrEmpty(this.Address) ? "" : this.Address));
+            userIdentity.AddClaim(new Claim("Email", this.Email));         
             userIdentity.AddClaim(new Claim("PhoneNumber", String.IsNullOrEmpty(this.PhoneNumber) ? "" : this.PhoneNumber));
             return userIdentity;
         }

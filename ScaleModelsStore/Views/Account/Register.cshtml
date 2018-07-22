@@ -14,25 +14,25 @@
     <div class="form-group">
         @Html.LabelFor(model => model.LastName, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.LastName, new { @class = "form-control" })
+            @Html.TextBoxFor(model => model.LastName, new { @class = "form-control" })
         </div>
     </div>
     <div class="form-group">
         @Html.LabelFor(model => model.FirstName, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.FirstName, new { @class = "form-control" })
+            @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control" })
         </div>
     </div>
     <div class="form-group">
         @Html.LabelFor(model => model.Email, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.Email, new { @class = "form-control" })
+            @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
         </div>
     </div>
     <div class="form-group">
         @Html.LabelFor(model => model.Phone, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.Phone, new { @class = "form-control" })
+            @Html.TextBoxFor(model => model.Phone, new { @class = "form-control" })
         </div>
     </div>
     <div class="form-group">
@@ -49,7 +49,7 @@
     </div>
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <input type="submit" class="sms-button" value="Register" />
+            <input type="submit" class="btn btn-outline-primary" value="Register" />
         </div>
     </div>
 }

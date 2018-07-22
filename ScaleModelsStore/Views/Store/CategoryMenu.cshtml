@@ -1,8 +1,8 @@
 ﻿@model IEnumerable<ScaleModelsStore.Models.Category>
 
-<ul>
+<ul class="category-menu">
     @foreach (var category in Model)
     {
-        <li>@Html.ActionLink(category.Name,"Category",new { categoryName=category.Name},null)</li>
+        <li>@Html.ActionLink(category.Name,"Category",new { categoryName=category.Name},new { @class="navbar-brand"})</li>
     }
 </ul>

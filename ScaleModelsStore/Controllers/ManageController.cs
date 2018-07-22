@@ -11,7 +11,7 @@ using System.Web;
 using System.Web.Mvc;
 
 namespace ScaleModelsStore.Controllers
-{
+{    
     [Authorize]
     public class ManageController : Controller
     {
@@ -53,13 +53,17 @@ namespace ScaleModelsStore.Controllers
         }
 
         // GET: Manage
+
         public ActionResult Index(ManageMessageId? message)
         {
+            ScaleModelsStoreEntities storeDb = new ScaleModelsStoreEntities();
+
             ViewBag.StatusMessage =
                 message == ManageMessageId.ChangePasswordSuccess ? "Password has been successfully changed."
                 : message == ManageMessageId.ChangeEmailSuccess ? "E-mail address successfully changed"
                 : message == ManageMessageId.ChangePhoneSuccess ? "Phone number successfully changed"
                 : message == ManageMessageId.ChangeAddressSuccess ? "Address successfully changed"
+                : message == ManageMessageId.AddAddressSuccess ? "Address successfully added"
                 : "";
 
             var userId = User.Identity.GetUserId();
@@ -70,24 +74,28 @@ namespace ScaleModelsStore.Controllers
                 ViewBag.ErrorMessage = "User not found";
                 return View("Error");
             }
+
+            var addressList = storeDb.Addresses.Where(a => a.UserId == userId).ToList();
+
             if (user.EmailConfirmed)
                 status = "Confirmed";
             else
                 status = "Not confirmed";
-            
 
             var viewModel = new UserInfoViewModel
             {
                 LastName = User.Identity.GetLastName(),
                 FirstName = User.Identity.GetFirstName(),
-                Email = User.Identity.GetEmail(),       
-                EmailStatus=status,
+                Email = User.Identity.GetEmail(),
+                EmailStatus = status,
                 PhoneNumber = UserManager.GetPhoneNumber(userId),
-                PostalCode = User.Identity.GetPostalCode(),
-                Country = User.Identity.GetCountry(),
-                City = User.Identity.GetCity(),
-                Address = User.Identity.GetAddress()
+                PostalCode = (addressList.Count != 0) ? addressList.FirstOrDefault().PostalCode : "",
+                Country = (addressList.Count != 0) ? addressList.FirstOrDefault().Country : "",
+                City = (addressList.Count != 0) ? addressList.FirstOrDefault().City : "",
+                Address = (addressList.Count != 0) ? addressList.FirstOrDefault().AddressString : ""
             };
+
+            ViewBag.Addresses = new SelectList(Utils.GetAddressDropDown(addressList), "Key", "Value");
             return View(viewModel);
         }
 
@@ -170,33 +178,109 @@ namespace ScaleModelsStore.Controllers
             return View(model);
         }
 
-        public ActionResult ChangeAddress()
+        public ActionResult AddAddress()
         {
             ViewBag.Countries = new SelectList(Utils.CountriesList(), "Key", "Value").OrderBy(p => p.Text).ToList();                        
             return View();
-        }
-
+        }              
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> ChangeAddress(ChangeAddressViewModel model)
+        public async Task<ActionResult> AddAddress(AddAddressViewModel model)
         {
+            ScaleModelsStoreEntities storeDb = new ScaleModelsStoreEntities();
+
             ViewBag.Countries = new SelectList(Utils.CountriesList(), "Key", "Value").OrderBy(p => p.Text).ToList();
             if (!ModelState.IsValid)
                 return View(model);
             var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
             if (user != null)
             {
-                user.PostalCode = model.PostalCode;
-                user.Country = model.Country;
-                user.City = model.City;
-                user.Address = model.Address;
+                var address = new Address
+                {
+                    UserId = User.Identity.GetUserId(),
+                    ShortDescription = model.Description,
+                    PostalCode = model.PostalCode,
+                    Country = model.Country,
+                    City = model.City,
+                    AddressString = model.Address
+                };                
+                await UserManager.UpdateAsync(user);
+                await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+
+                storeDb.Addresses.Add(address);
+                storeDb.SaveChanges();
+
+                return RedirectToAction("Index", new { Message = ManageMessageId.AddAddressSuccess });
+            }
+
+            return View(model);
+        }
+
+        public ActionResult ChangeAddress()
+        {
+            ScaleModelsStoreEntities storeDb = new ScaleModelsStoreEntities();
+
+            var userId = User.Identity.GetUserId();
+            var addressList = storeDb.Addresses.Where(a => a.UserId == userId).ToList();
+            if (addressList.Count == 0)
+            {
+                ViewBag.ErrorMessage = "Your address list is empty add new address first";
+                return View("Error");
+            }
+            ViewBag.Addresses = new SelectList(Utils.GetAddressDropDown(addressList), "Key", "Value");
+            ViewBag.Countries = new SelectList(Utils.CountriesList(), "Key", "Value").OrderBy(p => p.Text).ToList();
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> ChangeAddress(EditAddressViewModel model)
+        {
+            ScaleModelsStoreEntities storeDb = new ScaleModelsStoreEntities();
+            var userId = User.Identity.GetUserId();
+            var addressList = storeDb.Addresses.Where(a => a.UserId == userId).ToList();
+            ViewBag.Addresses = new SelectList(Utils.GetAddressDropDown(addressList), "Key", "Value");
+            ViewBag.Countries = new SelectList(Utils.CountriesList(), "Key", "Value").OrderBy(p => p.Text).ToList();
+            if (!ModelState.IsValid)
+                return View(model);            
+            var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+            var address = storeDb.Addresses.SingleOrDefault(a => a.UserId == userId && a.ShortDescription == model.Description);
+            if (user != null&&address!=null)
+            {
+                address.PostalCode = model.PostalCode;
+                address.Country = model.Country;
+                address.City = model.City;
+                address.AddressString = model.Address;
 
                 await UserManager.UpdateAsync(user);
                 await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+          
+                storeDb.SaveChanges();
+
                 return RedirectToAction("Index", new { Message = ManageMessageId.ChangeAddressSuccess });
             }
 
             return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult GetAddress(string description)
+        {
+            ScaleModelsStoreEntities storeDb = new ScaleModelsStoreEntities();
+
+            var userId = User.Identity.GetUserId();
+            var address = storeDb.Addresses.SingleOrDefault(a => a.UserId == userId && a.ShortDescription == description);
+
+            var viewModel = new UserInfoViewModel
+            {
+                PostalCode = address != null ? address.PostalCode : "",
+                Country = address != null ? address.Country : "",
+                City = address != null ? address.City : "",
+                Address = address != null ? address.AddressString : ""
+            };
+
+            return Json(viewModel);
         }
 
         [ChildActionOnly]
@@ -262,6 +346,7 @@ namespace ScaleModelsStore.Controllers
             ChangePasswordSuccess,
             ChangeEmailSuccess,
             ChangeAddressSuccess,
+            AddAddressSuccess,
             SetTwoFactorSuccess,
             SetPasswordSuccess,
             RemoveLoginSuccess,

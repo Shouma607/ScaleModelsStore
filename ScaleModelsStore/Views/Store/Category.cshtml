@@ -9,34 +9,47 @@
 
 <div>
     <h3>@Model.Category.Name Products</h3>
+    <hr />
     <div>
-        <div class="sorting">
-            <p>
-                Sort by: @Html.DropDownList("SortOptionsList", new SelectList(ViewBag.SortOptions as System.Collections.IEnumerable, "Key", "Value"), "Choose sort option")
-            </p>
+        <div class="sorting form-group input-group mb-3">
+            <div class="input-group-prepend">
+                @Html.Label("Sort by:", new { @for = "SortOptionsList", @class = "input-group-text" })
+                @Html.DropDownList("SortOptionsList", new SelectList(ViewBag.SortOptions as System.Collections.IEnumerable, "Key", "Value"), "Choose sort option", new { @class = "form-control input-group-append" })
+            </div>
         </div>
         @using (Html.BeginForm())
         {
-            <div class="filtering">
-                <p>Show/Hide filter options @Html.CheckBoxFor(model => model.isFilterShown)</p>
+            <div class="filtering form-group">
+                <div class="custom-control custom-checkbox">
+                    @Html.CheckBoxFor(model => model.isFilterShown, new { @class = "custom-control-input" })
+                    <label class="custom-control-label" for="isFilterShown">Show/Hide filter options</label>
+                </div>
             </div>
-            <div class="filter-options">
-                <p>Filter by Manufacturer: @Html.DropDownListFor(model => model.FilterByManufacturerId, ViewBag.FilterOptionManufacturers as SelectList, "None")</p>
-                <p>Filter by Scale: @Html.DropDownListFor(model => model.FilterByScale, new SelectList(ViewBag.FilterOptionScale as System.Collections.IEnumerable, "Key", "Value"), "None")</p>
-                <input class="submit-button" id="apply" type="submit" value="Apply filter" />
-                <input class="submit-button" id="reset" type="submit" value="Reset filter" />
+            <div class="filter-options form-group">
+                <div>
+                    @Html.Label("Filter by Manufacturer:", new { @for = "FilterByManufacturerId" })
+                    @Html.DropDownListFor(model => model.FilterByManufacturerId, ViewBag.FilterOptionManufacturers as SelectList, "None", new { @class = "custom-control-inline col-sm-2" })
+
+                    @Html.Label("Filter by Scale:", new { @for = "FilterByScale" })
+                    @Html.DropDownListFor(model => model.FilterByScale, new SelectList(ViewBag.FilterOptionScale as System.Collections.IEnumerable, "Key", "Value"), "None", new { @class = "custom-control-inline col-sm-2" })
+                </div>
+                <div>
+                    <input class="btn btn-outline-success" id="apply" type="submit" value="Apply filter" />
+                    <input class="btn btn-outline-warning" id="reset" type="submit" value="Reset filter" />
+                </div>
             </div>
         }
     </div>
-    <ul id="sorting-start">
+    <hr />
+    <ul id="sorting-start" class="product-list">
         @foreach (var product in Model.Products)
         {
             <li class="item" sort-by-id="@product.ProductId" sort-by-price="@product.Price">
-                <a href="@Url.Action("Product",new { id=product.ProductId})">
+                <a class="card-link" href="@Url.Action("Product",new { id=product.ProductId})">
                     <img alt="@product.ProductName" src="@string.Format("{0}placeholder.gif",product.ImagePath)" />
                     <span>@product.ProductName</span>
                 </a>
-                <span>| Price: @product.Price</span>
+                <p>Price: @product.Price</p>
             </li>
         }
     </ul>

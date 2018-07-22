@@ -7,7 +7,6 @@ namespace ScaleModelsStore.Models
 {
     public partial class ProductMaxQuantityCheck
     {
-
         public static List<Product> CheckMaxQuantity(ShoppingCart cart, Order order)
         {
             ScaleModelsStoreEntities storeDb = new ScaleModelsStoreEntities();
@@ -20,7 +19,7 @@ namespace ScaleModelsStore.Models
                                                 && o.Country.Trim() == order.Country.Trim()
                                                 && String.Compare(o.Address.Trim(), order.Address.Trim(), true) == 0
                                                 && String.Compare(o.City.Trim(), order.City.Trim(), true) == 0
-                                                || o.Email.ToLower() == order.Email.ToLower()).ToList();
+                                                || o.Email.ToLower() == order.Email.ToLower()||o.Phone==order.Phone).ToList();
                 var products = storeDb.Products.ToList();
                 foreach (var cartItem in carts)
                 {
@@ -38,9 +37,7 @@ namespace ScaleModelsStore.Models
                     }
                 }
             }
-
             return RestrictedProducts;
         }
-
     }
 }

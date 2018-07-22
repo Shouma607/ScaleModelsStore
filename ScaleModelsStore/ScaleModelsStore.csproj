@@ -213,7 +213,20 @@
     <Compile Include="Migrations\201807172206206_With-Identity-2.Designer.cs">
       <DependentUpon>201807172206206_With-Identity-2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201807211015515_Multiple-Address.cs" />
+    <Compile Include="Migrations\201807211015515_Multiple-Address.Designer.cs">
+      <DependentUpon>201807211015515_Multiple-Address.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201807211120400_Multiple-Address-2.cs" />
+    <Compile Include="Migrations\201807211120400_Multiple-Address-2.Designer.cs">
+      <DependentUpon>201807211120400_Multiple-Address-2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201807211532559_Identity-Edited.cs" />
+    <Compile Include="Migrations\201807211532559_Identity-Edited.Designer.cs">
+      <DependentUpon>201807211532559_Identity-Edited.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\Address.cs" />
     <Compile Include="Models\Cart.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\IdentityHelper.cs" />
@@ -250,6 +263,8 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Scripts\account-address-to-controls.js" />
+    <Content Include="Scripts\account-get-address.js" />
     <Content Include="Scripts\account-menu.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -308,6 +323,9 @@
     <Content Include="Views\Orders\Current.cshtml" />
     <Content Include="Views\Orders\History.cshtml" />
     <Content Include="Views\Orders\Details.cshtml" />
+    <Content Include="Views\Manage\AddAddress.cshtml" />
+    <Content Include="Views\Checkout\CheckStatus.cshtml" />
+    <Content Include="Views\Checkout\CheckResult.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -334,6 +352,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201807172206206_With-Identity-2.resx">
       <DependentUpon>201807172206206_With-Identity-2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807211015515_Multiple-Address.resx">
+      <DependentUpon>201807211015515_Multiple-Address.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807211120400_Multiple-Address-2.resx">
+      <DependentUpon>201807211120400_Multiple-Address-2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807211532559_Identity-Edited.resx">
+      <DependentUpon>201807211532559_Identity-Edited.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

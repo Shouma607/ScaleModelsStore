@@ -1,4 +1,5 @@
 ﻿body {
+
     padding-top: 50px;
     padding-bottom: 20px;
 }
@@ -32,14 +33,20 @@ textarea {
     color:white;
 }
 
+/*Filter*/
 .filter-options{
     display: none;
 }
-.search{
-    float:left;
-    padding-top:12px;
-    padding-left:50px;
-    padding-right:30px;
+
+.empty-filter-result{
+    color:indianred;
+}
+
+.search {
+    /*float:left;*/
+    /*padding-top:12px;*/
+    padding-left: 50px;
+    padding-right: 30px;
 }
 
 .nav-account {
@@ -106,16 +113,6 @@ textarea {
 }
 
 /*Buttons*/
-.submit-search-button {
-    /*border-color: #999999;
-    border-width: 1px;*/
-    border:none;
-    text-decoration: none;
-    display: inline-block;
-    cursor: pointer;
-    color: #999999;
-    background-color: transparent;
-}
 
 .sms-button {
     text-decoration: none;
@@ -139,33 +136,7 @@ textarea {
 .table-container {
     padding-bottom: 10px;
 }
-.hover-table  {
-    border: 1px solid #000;
-    border-collapse: collapse;
-    color: black;
-    min-width: 250px;
-    width: 100%;
-}
 
-.hover-table tr {
-    border: 1px solid #000;
-    line-height: 25px;
-}
-
-.hover-table th {
-    background-color: #333;
-    color: silver;
-    font-size: 13px;
-    text-align: left;
-}
-
-.hover-table th, td {
-    padding-left: 5px;
-}
-
-.hover-table tr:hover {
-    background-color: silver;
-}
 
 .cart-table{
     border: 1px solid #000;
@@ -180,8 +151,10 @@ textarea {
 
 .cart-table th {    
     background-color: #333;
-    color: silver;
-    font-size: 13px;    
+    color: white;
+    padding-top:15px;
+    padding-bottom:15px;
+    font-size: 16px;    
 }
 
 .cart-table th, td {
@@ -196,5 +169,113 @@ tr .add-unit, tr .remove-unit, tr .cancel-link{
 tr .add-unit{
     border:none;
 }
+/*body-content*/
+.body-content {
+    padding-top: 20px;
+    overflow:hidden;      
+}
 
+/*Product list*/
+.product-list{
+    list-style: none;
+    margin-left: 0px;
+}
+.product-list li{
+    height: 130px;
+	width: 100px;
+	float: left;
+	margin: 10px;
+	text-align: center;
+}
 
+/*Product details*/
+.product-img img{
+    max-width:100%;
+    height:auto;
+}
+.product-details{
+    line-height:0.4;
+    padding-left:25px;
+    padding-top:10px;
+}
+.product-details span{
+    font-size:14px;    
+}
+.product-details h1, h2, h3, h4, h5, h6{
+      margin-top: 0;
+      margin-bottom: 0;
+}
+.alert-qntt{    
+    color:red;
+}
+.clear-float{
+    clear:both;
+}
+/*Category menu*/
+.category-menu {
+    list-style-type: none;
+    padding-top: 20px;
+    padding-right: 10px;
+    margin: 0 25px 0 0;
+    float: left;
+}
+.category-menu a:hover{
+    color:indianred;
+}
+
+/*footer*/
+footer {
+    clear: both;
+    padding: 10px;
+}
+
+/*Error message*/
+.error-msg{
+    color:indianred;
+}
+/*Horizontal dl*/
+@media (min-width: 768px) {
+    .dl-horizontal dt {
+        float: left;
+        width: 160px;
+        overflow: hidden;
+        clear: left;
+        text-align: right;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .dl-horizontal dd {
+        margin-left: 180px;
+    }
+
+        .dl-horizontal dd:before,
+        .dl-horizontal dd:after {
+            display: table;
+            content: " ";
+        }
+
+        .dl-horizontal dd:after {
+            clear: both;
+        }
+
+        .dl-horizontal dd:before,
+        .dl-horizontal dd:after {
+            display: table;
+            content: " ";
+        }
+
+        .dl-horizontal dd:after {
+            clear: both;
+        }
+}
+/*Inline forms*/
+.form-inline {
+    padding-bottom: 5px;    
+}
+
+/*cart links*/
+.CancelLink:hover, .AddUnitLink:hover, .RemoveUnitLink:hover {
+    text-decoration: none;
+    color: indianred;
+}

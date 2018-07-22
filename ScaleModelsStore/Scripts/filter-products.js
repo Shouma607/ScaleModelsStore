@@ -19,5 +19,6 @@
         $("#FilterByCategoryId").empty();
         $("#FilterByManufacturerId").empty();
         $("#FilterByScale").empty();
+        $("#hiddenSearchResult").empty();
     });
 });

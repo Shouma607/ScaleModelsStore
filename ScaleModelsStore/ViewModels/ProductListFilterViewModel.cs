@@ -13,5 +13,6 @@ namespace ScaleModelsStore.ViewModels
         public int FilterByManufacturerId { get; set; }
         public string FilterByScale { get; set; }
         public bool isFilterShown { get; set; }
+        public string hiddenSearchResult { get; set; }
     }
 }

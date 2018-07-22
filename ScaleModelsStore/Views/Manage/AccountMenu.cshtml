@@ -1,4 +1,4 @@
-﻿<div class="nav-account">
+﻿@*<div class="nav-account">
     @Html.ActionLink("Information", "Index")
     <div class="dropdown-acc">
         <button class="dropbtn set" id="settingsBtn" onclick="DropdownSettings()">
@@ -8,7 +8,8 @@
             @Html.ActionLink("Change password", "ChangePassword")
             @Html.ActionLink("Change e-mail", "ChangeEmail")
             @Html.ActionLink("Change phone number", "ChangePhone")
-            @Html.ActionLink("Change address", "ChangeAddress")
+            @Html.ActionLink("Add address", "AddAddress")
+            @Html.ActionLink("Edit address", "ChangeAddress")
         </div>
     </div>
     <div class="dropdown-acc">
@@ -20,4 +21,28 @@
             @Html.ActionLink("History", "History", "Orders")
         </div>
     </div>
-</div>
+</div>*@
+
+<ul class="nav nav-tabs">
+    <li class="nav-item">
+        <a class="nav-link" href="@Url.Action("Index")">Information</a>
+    </li>
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" id="settingsBtn">Settings</a>
+        <div class="dropdown-menu" id="settingsDropdown">
+            <a class="dropdown-item" href="@Url.Action("ChangePassword")">Change password</a>
+            <a class="dropdown-item" href="@Url.Action("ChangeEmail")">Change e-mail</a>
+            <a class="dropdown-item" href="@Url.Action("ChangePhone")">Change phone number</a>
+            <a class="dropdown-item" href="@Url.Action("ChangeAddress")">Edit address</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="@Url.Action("AddAddress")">Add address</a>
+        </div>
+    </li>
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" id="ordersBtn">Orders</a>
+        <div class="dropdown-menu" id="ordersDropdown">
+            <a class="dropdown-item" href="@Url.Action( "Current", "Orders")">Current</a>
+            <a class="dropdown-item" href="@Url.Action("History", "Orders")">History</a>
+        </div>
+    </li>
+</ul>

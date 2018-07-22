@@ -22,16 +22,13 @@ namespace ScaleModelsStore.Controllers
             ViewBag.FilterOptionManufacturers = new SelectList(storeDb.Manufacturers, "ManufacturerId", "Name");
             ViewBag.FilterOptionScale = Utils.GetScalesList(storeDb.Products.ToList());
 
-            if (TempData["Products"] != null)
+            if (!String.IsNullOrEmpty(TempData["SearchResult"] as string))
             {
-                products = TempData["Products"] as List<Product>;
-
-                if (products.Count == 0)
-                {
-                    viewModel.Products = products;
-                    ViewBag.ErrorMessage = "The search has not given any results";
-                    return View(viewModel);
-                }
+                model.hiddenSearchResult = TempData["SearchResult"] as string;
+                model.Products = products.Where(p => p.ProductName.ToLower().Contains(model.hiddenSearchResult.ToLower())
+                                               || p.Category.Name.ToLower().Contains(model.hiddenSearchResult.ToLower())
+                                               || p.Manufacturer.Name.ToLower().Contains(model.hiddenSearchResult.ToLower()))
+                                         .ToList();
             }
 
             if (model.Products!=null)
@@ -46,7 +43,7 @@ namespace ScaleModelsStore.Controllers
             if (products.Count == 0)
             {
                 viewModel.Products = products;
-                ViewBag.ErrorMessage = "No results found with applied filters";
+                ViewBag.ErrorMessage = "No results found";
                 return View(viewModel);
             }
 
@@ -54,6 +51,7 @@ namespace ScaleModelsStore.Controllers
             viewModel.FilterByCategoryId = model.FilterByCategoryId;
             viewModel.FilterByManufacturerId = model.FilterByManufacturerId;
             viewModel.FilterByScale = "1/" + model.FilterByScale;
+            viewModel.hiddenSearchResult = model.hiddenSearchResult;
             return View(viewModel);
         }
 
@@ -101,16 +99,17 @@ namespace ScaleModelsStore.Controllers
         {
             var products = storeDb.Products.Include("Category")
                              .Include("Manufacturer").ToList();
-
+            TempData["SearchResult"] = "";
             if (!String.IsNullOrEmpty(values["SearchString"]))
             {
+                TempData["SearchResult"] = values["SearchString"];
                 products = products.Where(p => p.ProductName.ToLower().Contains(values["SearchString"].ToLower())
                                          ||p.Category.Name.ToLower().Contains(values["SearchString"].ToLower())
                                          ||p.Manufacturer.Name.ToLower().Contains(values["SearchString"].ToLower()))
                                          .ToList();
-            }
+            }            
 
-            TempData["Products"] = products;            
+                      
             return RedirectToAction("Index");
         }
     }

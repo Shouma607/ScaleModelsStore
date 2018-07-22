@@ -5,16 +5,18 @@
 }
 
 <div>
+    <h4>Welcome to Scale Models Store! Hope you will find something interesting</h4>
+    <br />
     <h3>New items:</h3>
-    <ul>
+    <ul class="product-list">
         @foreach (var product in Model)
         {
             <li>
-                <a href="@Url.Action("Product","Store",new { id=product.ProductId})">
+                <a class="card-link" href="@Url.Action("Product","Store",new { id=product.ProductId})">
                     <img alt="@product.ProductName" src="@string.Format("{0}placeholder.gif",product.ImagePath)"/>
                     <span>@product.ProductName</span>
                 </a>
-                <span>| Price: @product.Price</span>
+                <p>Price: @product.Price</p>
             </li>
         }
     </ul>
