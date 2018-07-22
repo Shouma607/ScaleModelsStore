@@ -25,12 +25,14 @@ namespace ScaleModelsStore.Controllers
             if (!String.IsNullOrEmpty(TempData["SearchResult"] as string))
             {
                 model.hiddenSearchResult = TempData["SearchResult"] as string;
-                model.Products = products.Where(p => p.ProductName.ToLower().Contains(model.hiddenSearchResult.ToLower())
-                                               || p.Category.Name.ToLower().Contains(model.hiddenSearchResult.ToLower())
-                                               || p.Manufacturer.Name.ToLower().Contains(model.hiddenSearchResult.ToLower()))
-                                         .ToList();
             }
-
+            if(!String.IsNullOrEmpty(model.hiddenSearchResult))
+            {
+                model.Products = products.Where(p => p.ProductName.ToLower().Contains(model.hiddenSearchResult.ToLower())
+                               || p.Category.Name.ToLower().Contains(model.hiddenSearchResult.ToLower())
+                               || p.Manufacturer.Name.ToLower().Contains(model.hiddenSearchResult.ToLower()))
+                         .ToList();
+            }
             if (model.Products!=null)
                 products = model.Products;
             if (model.FilterByCategoryId!=0)
